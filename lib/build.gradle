@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 14
-        versionName "v1.4"
+        versionCode 15
+        versionName "v1.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -54,6 +54,7 @@ dependencies {
 
     api 'com.facebook.fresco:fresco:1.13.0'
     api 'com.facebook.fresco:imagepipeline-okhttp3:1.13.0'
+    api 'com.facebook.fresco.helper:fresco-helper:2.1.8'
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-4'
