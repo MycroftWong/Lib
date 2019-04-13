@@ -3,11 +3,11 @@ package com.mycroft.sample;
 import android.Manifest;
 import android.os.Bundle;
 
-//import com.blankj.utilcode.util.ToastUtils;
-//import com.chad.library.adapter.base.BaseViewHolder;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.mycroft.lib.net.RemoteService;
 import com.mycroft.lib.view.BaseRecyclerAdapter;
-//import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,14 +17,14 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-//import io.reactivex.Observable;
-//import io.reactivex.android.schedulers.AndroidSchedulers;
-//import io.reactivex.schedulers.Schedulers;
-//import retrofit2.http.GET;
-//import retrofit2.http.Query;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
 //
 public class MainActivity extends AppCompatActivity {
-/*
     private final List<String> mMovies = new ArrayList<>();
     private BaseRecyclerAdapter<String> mAdapter;
 
@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     interface IApiService {
-        *//**
+        /**
          * 获取豆瓣250
          *
          * @return
-         *//*
+         */
         @GET("v2/movie/top250")
         Observable<String> getDoubanTop(@Query("start") int start, @Query("count") int count);
-    }*/
+    }
 }
