@@ -7,9 +7,20 @@ import io.reactivex.disposables.Disposable;
  */
 public final class DisposableUtil {
 
-    public static void dispose(Disposable disposable) {
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
+    /**
+     * 关闭所有的事件传递
+     *
+     * @param disposables 代替发送的事件流
+     */
+    public static void dispose(Disposable... disposables) {
+        if (disposables == null) {
+            return;
         }
+        for (Disposable d : disposables) {
+            if (d != null && !d.isDisposed()) {
+                d.dispose();
+            }
+        }
+
     }
 }
