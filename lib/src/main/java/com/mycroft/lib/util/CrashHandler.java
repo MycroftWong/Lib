@@ -10,6 +10,8 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -40,7 +42,6 @@ public final class CrashHandler implements UncaughtExceptionHandler {
     private Context mContext;
 
     private Map<String, String> infos = new HashMap<String, String>();
-
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
@@ -104,14 +105,13 @@ public final class CrashHandler implements UncaughtExceptionHandler {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                Logs.e("error : ", e);
+                LogUtils.e("error : ", e);
             }
-            Logs.d("uncaught exception is catched!");
+            LogUtils.d("uncaught exception is catched!");
             System.exit(0);
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
-
 
     private boolean handleException(Throwable ex) {
         if (ex == null) {
@@ -129,7 +129,7 @@ public final class CrashHandler implements UncaughtExceptionHandler {
         collectDeviceInfo(mContext);
 
         String filemameString = saveCrashInfo2File(ex);
-        Logs.d("filemameString", filemameString);
+        LogUtils.d("filemameString", filemameString);
         return true;
     }
 
@@ -150,16 +150,16 @@ public final class CrashHandler implements UncaughtExceptionHandler {
 
             }
         } catch (NameNotFoundException e) {
-            Logs.e("an error occured when collect package info", e);
+            LogUtils.e("an error occured when collect package info", e);
         }
         Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
                 infos.put(field.getName(), field.get(null).toString());
-                Logs.d(field.getName() + " : " + field.get(null));
+                LogUtils.d(field.getName() + " : " + field.get(null));
             } catch (Exception e) {
-                Logs.e("an error occured when collect crash info", e);
+                LogUtils.e("an error occured when collect crash info", e);
             }
         }
     }
@@ -200,7 +200,7 @@ public final class CrashHandler implements UncaughtExceptionHandler {
                         //StorageUtils.getCacheDirectory(mContext) +
                         Environment.getExternalStorageDirectory().getAbsolutePath() +
                                 (!TextUtils.isEmpty(crashFilePath) ? crashFilePath : "/crash/");
-                Logs.d("path----" + path);
+                LogUtils.d("path----" + path);
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();
@@ -211,7 +211,7 @@ public final class CrashHandler implements UncaughtExceptionHandler {
             }
             return fileName;
         } catch (Exception e) {
-            Logs.e("an error occured while writing file...", e);
+            LogUtils.e("an error occured while writing file...", e);
         }
         return null;
     }

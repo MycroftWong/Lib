@@ -1,5 +1,7 @@
 package com.mycroft.lib.util;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -29,7 +31,7 @@ public final class Md5FileNameGenerator {
             e.update(data);
             hash = e.digest();
         } catch (NoSuchAlgorithmException var4) {
-            Logs.e(var4);
+            LogUtils.e(var4);
         }
 
         return hash;
