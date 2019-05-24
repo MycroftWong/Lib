@@ -3,10 +3,13 @@ package com.mycroft.sample;
 import android.Manifest;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mycroft.lib.net.RemoteService;
-import com.mycroft.lib.view.BaseRecyclerAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONArray;
@@ -15,18 +18,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-//
+/**
+ * @author wangqiang
+ */
 public class MainActivity extends AppCompatActivity {
+
     private final List<String> mMovies = new ArrayList<>();
-    private BaseRecyclerAdapter<String> mAdapter;
+    private BaseQuickAdapter<String, BaseViewHolder> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
-        mAdapter = new BaseRecyclerAdapter<String>(recyclerView, android.R.layout.simple_list_item_1, mMovies, R.string.empty) {
+        mAdapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1, mMovies) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
                 helper.setText(android.R.id.text1, item);
@@ -64,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     mAdapter.notifyDataSetChanged();
-                }, throwable -> {
-                    ToastUtils.showShort("error");
-                }, () -> {
+                }, throwable -> ToastUtils.showShort("error"), () -> {
                 });
 
     }

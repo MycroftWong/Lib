@@ -9,5 +9,11 @@ import retrofit2.Retrofit;
  */
 public interface RetrofitMaker {
 
+    /**
+     * 使用base url构造retrofit
+     *
+     * @param baseUrl base url
+     * @return 构造的retrofit
+     */
     Retrofit makeRetrofit(String baseUrl);
 }

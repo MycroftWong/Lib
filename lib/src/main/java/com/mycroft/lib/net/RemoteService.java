@@ -3,14 +3,15 @@ package com.mycroft.lib.net;
 import android.content.Context;
 import android.util.ArrayMap;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.blankj.utilcode.util.LogUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -51,19 +52,17 @@ public final class RemoteService {
         return sRemoteService;
     }
 
-    private final Context mAppContext;
     private final OkHttpClient mHttpClient;
 
     private ArrayMap<String, Retrofit> mRetrofitMap = new ArrayMap<>();
 
     private RemoteService(Context appContext, @Nullable OkHttpClientMaker maker) {
-        mAppContext = appContext;
         if (maker == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LogUtils::d);
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             mHttpClient = new OkHttpClient.Builder()
-                    .cache(new Cache(new File(mAppContext.getCacheDir(), "net"), 10 << 20))
+                    .cache(new Cache(new File(appContext.getCacheDir(), "net"), 10 << 20))
                     .readTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(15, TimeUnit.SECONDS)
                     .connectTimeout(10, TimeUnit.SECONDS)
