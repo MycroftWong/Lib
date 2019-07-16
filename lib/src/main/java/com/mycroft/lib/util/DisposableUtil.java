@@ -13,7 +13,7 @@ public final class DisposableUtil {
      * @param disposables 代替发送的事件流
      */
     public static void dispose(Disposable... disposables) {
-        if (disposables == null) {
+        if (disposables == null || disposables.length == 0) {
             return;
         }
         for (Disposable d : disposables) {

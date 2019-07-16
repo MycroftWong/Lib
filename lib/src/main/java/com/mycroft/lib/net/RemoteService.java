@@ -91,7 +91,6 @@ public final class RemoteService {
                     .addConverterFactory(StringConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-            mRetrofitMap.put(baseUrl, retrofit);
         } else {
             retrofit = maker.makeRetrofit(baseUrl);
         }

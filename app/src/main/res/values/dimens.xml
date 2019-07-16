@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_toolbar">44dp</dimen>
+    <dimen name="height_navigation">48dp</dimen>
+
+
+    <dimen name="common_padding_top_bottom">8dp</dimen>
+    <dimen name="common_padding_start_end">12dp</dimen>
+    <dimen name="height_common_text">48dp</dimen>
+
+    <dimen name="common_text_size">14dp</dimen>
+    <dimen name="text_size_article_content">16sp</dimen>
+    <dimen name="common_text_size_info">12sp</dimen>
+</resources>
