@@ -33,6 +33,6 @@ public interface IApiService {
     @GET("tree/json")
     Observable<NetModel<List<Category>>> getCategoryList();
 
-    @GET("chapters/json")
+    @GET("wxarticle/chapters/json")
     Observable<NetModel<List<OfficialAccount>>> getOfficialAccountList();
 }

@@ -57,6 +57,11 @@ public class OfficialAccountFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (officialAccountList.isEmpty()) {
+            loadData();
+        } else {
+            holder.showLoadSuccess();
+        }
     }
 
     private Disposable disposable;
