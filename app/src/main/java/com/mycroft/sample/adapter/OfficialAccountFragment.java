@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.billy.android.loading.Gloading;
@@ -71,7 +70,7 @@ public class OfficialAccountFragment extends CommonFragment {
                 .subscribe(officialAccounts -> {
                     holder.showLoadSuccess();
                     officialAccountList.addAll(officialAccounts);
-                    viewPager.setAdapter(pagerAdapter);
+                    viewPager.setAdapter(new OfficialAccountAdapter());
                     tabLayout.setupWithViewPager(viewPager);
 
                 }, throwable -> {
@@ -80,7 +79,12 @@ public class OfficialAccountFragment extends CommonFragment {
                 }, () -> disposable = null);
     }
 
-    private final PagerAdapter pagerAdapter = new FragmentPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private class OfficialAccountAdapter extends FragmentPagerAdapter {
+
+        public OfficialAccountAdapter() {
+            super(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        }
+
         @NonNull
         @Override
         public Fragment getItem(int position) {
@@ -97,5 +101,7 @@ public class OfficialAccountFragment extends CommonFragment {
         public CharSequence getPageTitle(int position) {
             return officialAccountList.get(position).getName();
         }
-    };
+    }
+
+    ;
 }
