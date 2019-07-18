@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.MycroftWong'
+group = 'com.github.MycroftWong'
 
 android {
     compileSdkVersion 29
@@ -27,6 +27,22 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // 强制 rxjava 3.0
+    configurations {
+        compile.exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+        all {
+            resolutionStrategy {
+                eachDependency { DependencyResolveDetails details ->
+                    if (details.requested.group == 'io.reactivex.rxjava3' &&
+                            details.requested.name == 'rxjava') {
+                        details.useVersion '3.0.0-RC1'
+                        details.because 'Unified the version of RxJava3'
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -49,15 +65,15 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:4.0.1'
 
     api 'com.squareup.retrofit2:retrofit:2.6.0'
-    api 'io.reactivex.rxjava2:rxjava:2.2.10'
+    api 'io.reactivex.rxjava3:rxjava:3.0.0-RC1'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
     api 'com.squareup.retrofit2:converter-gson:2.6.0'
 
     api 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     api 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
-
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
@@ -75,5 +91,4 @@ dependencies {
     api 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 
     api 'me.dkzwm.widget.fet:core:0.0.8.androidxKT'
-
 }

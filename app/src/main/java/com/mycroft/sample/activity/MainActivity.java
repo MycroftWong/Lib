@@ -12,7 +12,9 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mycroft.lib.util.FragmentSwitcher;
 import com.mycroft.sample.R;
+import com.mycroft.sample.adapter.OfficialAccountFragment;
 import com.mycroft.sample.common.CommonActivity;
+import com.mycroft.sample.fragment.CategoryFragment;
 import com.mycroft.sample.fragment.MainFragment;
 
 import butterknife.BindView;
@@ -52,6 +54,21 @@ public class MainActivity extends CommonActivity {
 
         fragmentSwitcher.startFragment(0);
 
+        navigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.mainMenu:
+                    fragmentSwitcher.startFragment(0);
+                    break;
+                case R.id.categoryMenu:
+                    fragmentSwitcher.startFragment(1);
+                    break;
+                case R.id.officialAccountMenu:
+                    fragmentSwitcher.startFragment(2);
+                default:
+                    break;
+            }
+            return true;
+        });
     }
 
     @Override
@@ -62,6 +79,11 @@ public class MainActivity extends CommonActivity {
     private final FragmentSwitcher.FragmentAdapter adapter = position -> {
         switch (position) {
             case 0:
+                return MainFragment.newInstance();
+            case 1:
+                return CategoryFragment.newInstance();
+            case 2:
+                return OfficialAccountFragment.newInstance();
             default:
                 return MainFragment.newInstance();
         }

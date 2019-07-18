@@ -7,8 +7,11 @@ import com.mycroft.lib.net.RemoteService;
 import com.mycroft.lib.net.StringConverterFactory;
 import com.mycroft.sample.exception.NetDataException;
 import com.mycroft.sample.model.ArticleListModel;
+import com.mycroft.sample.model.Category;
+import com.mycroft.sample.model.OfficialAccount;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -61,7 +64,22 @@ public final class NetService {
     private final IApiService service;
 
     public Observable<ArticleListModel> getArticleList(int page) {
-        return service.getArticleList(page)
+        Observable<NetModel<ArticleListModel>> observable = service.getArticleList(page);
+        return handleResult(observable);
+    }
+
+    public Observable<List<Category>> getCategoryList() {
+        Observable<NetModel<List<Category>>> observable = service.getCategoryList();
+        return handleResult(observable);
+    }
+
+    public Observable<List<OfficialAccount>> getOfficialAccountList() {
+        Observable<NetModel<List<OfficialAccount>>> observable = service.getOfficialAccountList();
+        return handleResult(observable);
+    }
+
+    private static <T> Observable<T> handleResult(Observable<NetModel<T>> observable) {
+        return observable
                 .compose(async())
                 .map(articleListModelNetModel -> {
                     if (articleListModelNetModel.getErrorCode() == 0) {

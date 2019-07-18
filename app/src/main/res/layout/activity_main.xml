@@ -21,7 +21,6 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigationView"
         app:menu="@menu/menu_main"
-
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_navigation"
         android:layout_gravity="bottom" />
