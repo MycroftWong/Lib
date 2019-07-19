@@ -9,9 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
-import com.billy.android.loading.Gloading;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.tabs.TabLayout;
+import com.mycroft.lib.view.Loading;
+import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
 import com.mycroft.sample.adapter.ProjectPagerAdapter;
 import com.mycroft.sample.common.CommonFragment;
@@ -34,7 +35,7 @@ public class ProjectFragment extends CommonFragment {
         return fragment;
     }
 
-    private Gloading.Holder holder;
+    private LoadingHolder holder;
 
     private final List<Project> projectList = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class ProjectFragment extends CommonFragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
 
-        holder = Gloading.getDefault().wrap(view).withRetry(this::loadData);
+        holder = Loading.getDefault().wrap(view).withRetry(this::loadData);
         holder.showLoading();
         return holder.getWrapper();
     }

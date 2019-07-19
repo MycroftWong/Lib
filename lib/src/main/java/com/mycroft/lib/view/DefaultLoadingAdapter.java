@@ -2,16 +2,14 @@ package com.mycroft.lib.view;
 
 import android.view.View;
 
-import com.billy.android.loading.Gloading;
-
 /**
  * 统一加载adapter
  *
  * @author mycroft
  */
-public class GloadingAdapter implements Gloading.Adapter {
+public class DefaultLoadingAdapter implements LoadingAdapter {
     @Override
-    public View getView(Gloading.Holder holder, View convertView, int status) {
+    public View getView(LoadingHolder holder, View convertView, int status) {
 
         StatusView statusView = null;
 

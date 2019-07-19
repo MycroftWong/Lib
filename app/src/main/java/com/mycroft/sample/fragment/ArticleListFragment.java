@@ -10,13 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.billy.android.loading.Gloading;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
+import com.mycroft.lib.view.Loading;
+import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
 import com.mycroft.sample.activity.WebViewActivity;
 import com.mycroft.sample.adapter.ArticleListAdapter;
@@ -88,7 +89,7 @@ public final class ArticleListFragment extends CommonFragment {
 
     private BaseQuickAdapter<Article, BaseViewHolder> adapter;
 
-    private Gloading.Holder holder;
+    private LoadingHolder holder;
     private SmartRefreshLayout refreshLayout;
 
     @Override
@@ -98,7 +99,7 @@ public final class ArticleListFragment extends CommonFragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        holder = Gloading.getDefault().wrap(refreshLayout).withRetry(() -> loadData(startPage));
+        holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> loadData(startPage));
 
         adapter = new ArticleListAdapter(articleList);
         adapter.setOnItemClickListener((a, v, position) -> startActivity(WebViewActivity.getIntent(getContext(), articleList.get(position))));

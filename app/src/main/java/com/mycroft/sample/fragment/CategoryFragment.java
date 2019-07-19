@@ -10,10 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.billy.android.loading.Gloading;
 import com.blankj.utilcode.util.ToastUtils;
 import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
+import com.mycroft.lib.view.Loading;
+import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
 import com.mycroft.sample.adapter.CategoryAdapter;
 import com.mycroft.sample.common.CommonFragment;
@@ -42,7 +43,7 @@ public class CategoryFragment extends CommonFragment {
         super.onCreate(savedInstanceState);
     }
 
-    private Gloading.Holder holder;
+    private LoadingHolder holder;
     private CategoryAdapter adapter;
 
     @Override
@@ -52,7 +53,7 @@ public class CategoryFragment extends CommonFragment {
         adapter = new CategoryAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        holder = Gloading.getDefault().wrap(view).withRetry(this::loadData);
+        holder = Loading.getDefault().wrap(view).withRetry(this::loadData);
         holder.showLoading();
 
         adapter.expandAll();

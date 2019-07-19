@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 
 import com.mycroft.lib.R;
 
-import static com.billy.android.loading.Gloading.STATUS_EMPTY_DATA;
-import static com.billy.android.loading.Gloading.STATUS_LOADING;
-import static com.billy.android.loading.Gloading.STATUS_LOAD_FAILED;
-import static com.billy.android.loading.Gloading.STATUS_LOAD_SUCCESS;
+import static com.mycroft.lib.view.Loading.STATUS_EMPTY_DATA;
+import static com.mycroft.lib.view.Loading.STATUS_LOADING;
+import static com.mycroft.lib.view.Loading.STATUS_LOAD_FAILED;
+import static com.mycroft.lib.view.Loading.STATUS_LOAD_SUCCESS;
 
 /**
  * @author mycroft

@@ -56,7 +56,6 @@ dependencies {
     api 'com.google.android.material:material:1.1.0-alpha08'
     api 'androidx.recyclerview:recyclerview:1.1.0-beta01'
 
-    // if u use AndroidX, use the following
     api 'com.blankj:utilcodex:1.24.7'
 
     api 'com.google.code.gson:gson:2.8.5'
@@ -82,8 +81,6 @@ dependencies {
 
     // immersion bar
     api 'com.gyf.immersionbar:immersionbar:3.0.0-beta05'
-
-    api 'com.billy.android:gloading:1.0.1'
 
     api 'com.github.cxyzy1:clearEditText:1.0.5'
 

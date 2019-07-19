@@ -2,15 +2,14 @@ package com.mycroft.sample.app;
 
 import android.app.Application;
 
-import com.billy.android.loading.Gloading;
-import com.mycroft.lib.view.GloadingAdapter;
+import com.mycroft.lib.view.DefaultLoadingAdapter;
+import com.mycroft.lib.view.Loading;
 
 public class App extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Gloading.initDefault(new GloadingAdapter());
-
+        Loading.initDefault(new DefaultLoadingAdapter());
     }
 }
