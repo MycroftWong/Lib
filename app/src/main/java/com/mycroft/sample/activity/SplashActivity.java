@@ -19,6 +19,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * @author mycroft
+ */
 public class SplashActivity extends CommonActivity {
 
     @Override
@@ -56,9 +59,8 @@ public class SplashActivity extends CommonActivity {
                 .subscribe(granted -> {
                             if (granted) {
                                 startActivity(MainActivity.getIntent(this));
-                            } else {
-                                finish();
                             }
+                            finish();
                         },
                         throwable -> finish());
     }

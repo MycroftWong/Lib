@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:article="http://schemas.android.com/article"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.MainActivity">
+    article:context=".activity.MainActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -20,8 +20,16 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigationView"
-        app:menu="@menu/menu_main"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_navigation"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        app:itemBackground="@android:color/white"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconTint="@null"
+        app:itemRippleColor="@color/colorPrimary"
+        app:itemTextAppearanceActive="@style/MainBottomNavigationTextAppearanceActive"
+        app:itemTextAppearanceInactive="@style/MainBottomNavigationTextAppearanceInactive"
+        app:itemTextColor="@color/common_text_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_main" />
 </FrameLayout>

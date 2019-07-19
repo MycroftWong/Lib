@@ -12,16 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.billy.android.loading.Gloading;
 import com.blankj.utilcode.util.ToastUtils;
+import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
 import com.mycroft.sample.adapter.ToolsAdapter;
 import com.mycroft.sample.common.CommonFragment;
+import com.mycroft.sample.model.Tools;
+import com.mycroft.sample.model.ToolsHeader;
 import com.mycroft.sample.net.NetService;
 
 import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
 
+/**
+ * @author mycroft
+ */
 public class ToolsFragment extends CommonFragment {
 
     public static ToolsFragment newInstance() {
@@ -48,6 +54,7 @@ public class ToolsFragment extends CommonFragment {
         adapter = new ToolsAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
         holder = Gloading.getDefault().wrap(view).withRetry(this::loadData);
         holder.showLoading();
         return holder.getWrapper();
@@ -61,9 +68,11 @@ public class ToolsFragment extends CommonFragment {
         }
 
         disposable = NetService.getInstance().getToolList()
-                .subscribe(tools -> {
+                .subscribe(toolsList -> {
                     holder.showLoadSuccess();
-                    adapter.addData(tools);
+                    for (Tools item : toolsList) {
+                        adapter.addData(new ToolsHeader(item));
+                    }
                 }, throwable -> {
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());
@@ -84,6 +93,9 @@ public class ToolsFragment extends CommonFragment {
     public void onDestroyView() {
         DisposableUtil.dispose(disposable);
         disposable = null;
+
+        BaseQuickAdapterUtil.releaseAdapter(adapter);
+        adapter = null;
         super.onDestroyView();
     }
 }

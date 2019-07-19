@@ -28,4 +28,15 @@
         <item name="android:background">@drawable/bg_common_button</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
+
+    <style name="MainBottomNavigationTextAppearanceActive" parent="@android:style/TextAppearance.Material.Title">
+        <item name="android:textSize">@dimen/common_text_size_info</item>
+        <item name="android:textColor">@color/common_text_color</item>
+    </style>
+
+    <style name="MainBottomNavigationTextAppearanceInactive" parent="@android:style/TextAppearance.Material.Title">
+        <item name="android:textSize">@dimen/common_text_size_info</item>
+        <item name="android:textColor">@color/common_text_color_detail</item>
+    </style>
 </resources>

@@ -19,6 +19,8 @@
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionBar">false</item>
     </style>
 
 </resources>

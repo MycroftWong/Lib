@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.billy.android.loading.Gloading;
 import com.blankj.utilcode.util.ToastUtils;
+import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
 import com.mycroft.sample.adapter.CategoryAdapter;
@@ -53,6 +54,9 @@ public class CategoryFragment extends CommonFragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         holder = Gloading.getDefault().wrap(view).withRetry(this::loadData);
         holder.showLoading();
+
+        adapter.expandAll();
+
         return holder.getWrapper();
     }
 
@@ -85,6 +89,9 @@ public class CategoryFragment extends CommonFragment {
 
     @Override
     public void onDestroyView() {
+        BaseQuickAdapterUtil.releaseAdapter(adapter);
+        adapter = null;
+
         DisposableUtil.dispose(disposable);
         disposable = null;
         super.onDestroyView();

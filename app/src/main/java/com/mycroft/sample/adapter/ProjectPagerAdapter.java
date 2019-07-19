@@ -3,7 +3,7 @@ package com.mycroft.sample.adapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.mycroft.sample.fragment.ArticleListFragment;
 import com.mycroft.sample.model.Project;
@@ -15,12 +15,12 @@ import java.util.List;
  *
  * @author mycroft
  */
-public class ProjectPagerAdapter extends FragmentPagerAdapter {
+public class ProjectPagerAdapter extends FragmentStatePagerAdapter {
 
     private final List<Project> projectList;
 
     public ProjectPagerAdapter(@NonNull FragmentManager fm, List<Project> projectList) {
-        super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.projectList = projectList;
     }
 

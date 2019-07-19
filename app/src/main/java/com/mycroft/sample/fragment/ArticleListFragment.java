@@ -43,6 +43,8 @@ public final class ArticleListFragment extends CommonFragment {
     private static final String ARGS_ARTICLE = "article.args";
     private static final String ARGS_START_PAGE = "start_page.args";
 
+    private static final String SAVED_ARTICLES = "articleList.saved";
+
     public static ArticleListFragment newInstance(String url, int startPage) {
 
         Bundle args = new Bundle();
@@ -65,6 +67,10 @@ public final class ArticleListFragment extends CommonFragment {
         } else {
             articleUrl = savedInstanceState.getString(ARGS_ARTICLE);
             startPage = savedInstanceState.getInt(ARGS_START_PAGE);
+            List<Article> articles = savedInstanceState.getParcelableArrayList(SAVED_ARTICLES);
+            if (null != articles && !articles.isEmpty()) {
+                articleList.addAll(articles);
+            }
         }
 
         nextPage = startPage;
@@ -75,9 +81,10 @@ public final class ArticleListFragment extends CommonFragment {
         super.onSaveInstanceState(outState);
         outState.putString(ARGS_ARTICLE, articleUrl);
         outState.putInt(ARGS_START_PAGE, startPage);
+        outState.putParcelableArrayList(SAVED_ARTICLES, articleList);
     }
 
-    private final List<Article> articles = new ArrayList<>();
+    private final ArrayList<Article> articleList = new ArrayList<>();
 
     private BaseQuickAdapter<Article, BaseViewHolder> adapter;
 
@@ -93,8 +100,8 @@ public final class ArticleListFragment extends CommonFragment {
 
         holder = Gloading.getDefault().wrap(refreshLayout).withRetry(() -> loadData(startPage));
 
-        adapter = new ArticleListAdapter(articles);
-        adapter.setOnItemClickListener((a, v, position) -> startActivity(WebViewActivity.getIntent(getContext(), articles.get(position))));
+        adapter = new ArticleListAdapter(articleList);
+        adapter.setOnItemClickListener((a, v, position) -> startActivity(WebViewActivity.getIntent(getContext(), articleList.get(position))));
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setOnRefreshLoadMoreListener(refreshLoadMoreListener);
@@ -105,7 +112,7 @@ public final class ArticleListFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (articles.isEmpty()) {
+        if (articleList.isEmpty()) {
             loadData(startPage);
         } else {
             holder.showLoadSuccess();
@@ -124,17 +131,17 @@ public final class ArticleListFragment extends CommonFragment {
                                 holder.showLoadSuccess();
 
                                 if (page == startPage) {
-                                    articles.clear();
+                                    articleList.clear();
                                 }
                                 nextPage = page + 1;
-                                articles.addAll(articleListModel.getDatas());
+                                articleList.addAll(articleListModel.getDatas());
                                 adapter.notifyDataSetChanged();
                                 finishRefresh();
                             },
                             throwable -> {
                                 LogUtils.e(throwable);
                                 ToastUtils.showShort(throwable.getMessage());
-                                if (articles.isEmpty()) {
+                                if (articleList.isEmpty()) {
                                     holder.showLoadFailed();
                                 }
                                 finishRefresh();
