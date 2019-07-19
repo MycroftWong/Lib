@@ -3,13 +3,15 @@ package com.mycroft.sample.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 import com.mycroft.lib.util.FragmentSwitcher;
 import com.mycroft.sample.R;
 import com.mycroft.sample.common.CommonActivity;
@@ -31,8 +33,8 @@ public class MainActivity extends CommonActivity {
         return new Intent(context, MainActivity.class);
     }
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    @BindView(R.id.titleBar)
+    TitleBar titleBar;
     @BindView(R.id.container)
     FrameLayout container;
     @BindView(R.id.navigationView)
@@ -57,6 +59,7 @@ public class MainActivity extends CommonActivity {
         fragmentSwitcher.startFragment(0);
 
         navigationView.setOnNavigationItemSelectedListener(item -> {
+            titleBar.setTitle(item.getTitle());
             switch (item.getItemId()) {
                 case R.id.mainMenu:
                     fragmentSwitcher.startFragment(0);
@@ -78,6 +81,21 @@ public class MainActivity extends CommonActivity {
             }
             return true;
         });
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+            }
+
+            @Override
+            public void onRightClick(View v) {
+                // TODO: 2019/7/19 添加搜索
+            }
+        });
+
     }
 
     @Override

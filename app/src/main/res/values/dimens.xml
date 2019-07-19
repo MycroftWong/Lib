@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="height_toolbar">44dp</dimen>
+    <dimen name="height_title_bar">48dp</dimen>
     <dimen name="height_navigation">48dp</dimen>
 
 

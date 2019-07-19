@@ -42,4 +42,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     implementation 'com.github.donkingliang:LabelsView:1.5.0'
+
+    implementation 'com.hjq:titlebar:6.0'
 }

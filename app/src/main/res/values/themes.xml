@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionBarSize">@dimen/height_toolbar</item>
+        <item name="actionBarSize">@dimen/height_title_bar</item>
         <item name="toolbarStyle">@style/CommonToolbarStyle</item>
         <item name="android:textViewStyle">@style/CommonTextViewStyle</item>
         <item name="colorControlNormal">@android:color/white</item>

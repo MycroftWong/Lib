@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:article="http://schemas.android.com/article"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     article:context=".activity.WebViewActivity">
 
+    <com.hjq.bar.TitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title_bar" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/height_title_bar" />
 </FrameLayout>

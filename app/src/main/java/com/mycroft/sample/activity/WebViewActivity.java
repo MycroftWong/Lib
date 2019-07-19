@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.WebChromeClient;
@@ -58,10 +62,28 @@ public class WebViewActivity extends CommonActivity {
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
+        TitleBar titleBar = findViewById(R.id.titleBar);
+        titleBar.setTitle(article.getTitle());
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                finish();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
 
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(findViewById(R.id.container), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator(-1, 3)
+                .useDefaultIndicator(ContextCompat.getColor(this, R.color.colorAccent), 2)
 //                .setAgentWebWebSettings(getSettings())
                 .setWebViewClient(webViewClient)
                 .setWebChromeClient(webChromeClient)
