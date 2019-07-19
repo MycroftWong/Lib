@@ -11,7 +11,8 @@ import com.mycroft.lib.R;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
- * Created by Mycroft on 2016/6/13.
+ * @author Mycroft
+ * @date 2016/6/13
  */
 public abstract class BaseFragment extends Fragment {
 
