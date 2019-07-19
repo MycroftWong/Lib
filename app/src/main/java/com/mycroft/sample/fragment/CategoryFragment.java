@@ -16,11 +16,14 @@ import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
+import com.mycroft.sample.activity.CategoryDetailActivity;
 import com.mycroft.sample.adapter.CategoryAdapter;
 import com.mycroft.sample.common.CommonFragment;
+import com.mycroft.sample.model.Category;
 import com.mycroft.sample.net.NetService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -46,11 +49,17 @@ public class CategoryFragment extends CommonFragment {
     private LoadingHolder holder;
     private CategoryAdapter adapter;
 
+    private final List<Category> categoryList = new ArrayList<>();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new CategoryAdapter(new ArrayList<>());
+        adapter = new CategoryAdapter(categoryList);
+
+        adapter.setOnItemClickListener((adapter1, view1, position) ->
+                startActivity(CategoryDetailActivity.getIntent(getContext(), categoryList.get(position))));
+
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         holder = Loading.getDefault().wrap(view).withRetry(this::loadData);
@@ -71,7 +80,8 @@ public class CategoryFragment extends CommonFragment {
         disposable = NetService.getInstance().getCategoryList()
                 .subscribe(categories -> {
                     holder.showLoadSuccess();
-                    adapter.addData(categories);
+                    categoryList.addAll(categories);
+                    adapter.notifyDataSetChanged();
                 }, throwable -> {
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());

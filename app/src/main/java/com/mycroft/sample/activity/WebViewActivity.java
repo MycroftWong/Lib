@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.just.agentweb.AgentWeb;
@@ -62,6 +63,12 @@ public class WebViewActivity extends CommonActivity {
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimaryDark)
+                .statusBarDarkFont(true)
+                .init();
+
         TitleBar titleBar = findViewById(R.id.titleBar);
         titleBar.setTitle(article.getTitle());
         titleBar.setOnTitleBarListener(new OnTitleBarListener() {

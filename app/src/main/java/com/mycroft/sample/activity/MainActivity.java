@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.mycroft.lib.util.FragmentSwitcher;
@@ -52,6 +53,12 @@ public class MainActivity extends CommonActivity {
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimaryDark)
+                .statusBarDarkFont(true)
+                .init();
+
         ButterKnife.bind(this);
 
         FragmentSwitcher fragmentSwitcher = new FragmentSwitcher(getSupportFragmentManager(), R.id.container, adapter);

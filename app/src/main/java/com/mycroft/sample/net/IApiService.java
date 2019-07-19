@@ -22,7 +22,6 @@ public interface IApiService {
      *
      * @return
      */
-//    @Headers(HttpConstants.CACHE_CONTROL + ": " + HttpConstants.FORCE_CONTROL)
     @GET("tree/json")
     Observable<NetModel<List<Category>>> getCategoryList();
 

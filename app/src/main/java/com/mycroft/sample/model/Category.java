@@ -1,8 +1,11 @@
 package com.mycroft.sample.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public final class Category {
+public final class Category implements Parcelable {
 
     /**
      * children : []
@@ -23,6 +26,32 @@ public final class Category {
     private boolean userControlSetTop;
     private int visible;
     private List<Category> children;
+
+    public Category() {
+    }
+
+    protected Category(Parcel in) {
+        courseId = in.readInt();
+        id = in.readInt();
+        name = in.readString();
+        order = in.readInt();
+        parentChapterId = in.readInt();
+        userControlSetTop = in.readByte() != 0;
+        visible = in.readInt();
+        children = in.createTypedArrayList(Category.CREATOR);
+    }
+
+    public static final Creator<Category> CREATOR = new Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 
     public int getCourseId() {
         return courseId;
@@ -86,5 +115,22 @@ public final class Category {
 
     public void setChildren(List<Category> children) {
         this.children = children;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(courseId);
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeInt(order);
+        parcel.writeInt(parentChapterId);
+        parcel.writeByte((byte) (userControlSetTop ? 1 : 0));
+        parcel.writeInt(visible);
+        parcel.writeTypedList(children);
     }
 }
