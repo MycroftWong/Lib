@@ -16,4 +16,16 @@
         android:id="@+id/officialAccountMenu"
         android:title="@string/official_account"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toolMenu"
+        android:title="@string/tool"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/projectMenu"
+        android:title="@string/project"
+        app:showAsAction="ifRoom" />
+
+
 </menu>

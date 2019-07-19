@@ -1,4 +1,4 @@
-package com.mycroft.sample.adapter;
+package com.mycroft.sample.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,16 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.billy.android.loading.Gloading;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.mycroft.sample.R;
+import com.mycroft.sample.adapter.OfficialAccountAdapter;
 import com.mycroft.sample.common.CommonFragment;
-import com.mycroft.sample.fragment.OfficialAccountArticleFragment;
 import com.mycroft.sample.model.OfficialAccount;
 import com.mycroft.sample.net.NetService;
 
@@ -25,12 +23,15 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
+/**
+ * 公众号
+ *
+ * @author mycroft
+ */
 public class OfficialAccountFragment extends CommonFragment {
 
     public static OfficialAccountFragment newInstance() {
-
         Bundle args = new Bundle();
-
         OfficialAccountFragment fragment = new OfficialAccountFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,9 +74,10 @@ public class OfficialAccountFragment extends CommonFragment {
 
         disposable = NetService.getInstance().getOfficialAccountList()
                 .subscribe(officialAccounts -> {
+
                     holder.showLoadSuccess();
                     officialAccountList.addAll(officialAccounts);
-                    viewPager.setAdapter(new OfficialAccountAdapter());
+                    viewPager.setAdapter(new OfficialAccountAdapter(getChildFragmentManager(), officialAccountList));
                     tabLayout.setupWithViewPager(viewPager);
 
                 }, throwable -> {
@@ -83,30 +85,4 @@ public class OfficialAccountFragment extends CommonFragment {
                     ToastUtils.showShort(throwable.getMessage());
                 }, () -> disposable = null);
     }
-
-    private class OfficialAccountAdapter extends FragmentPagerAdapter {
-
-        public OfficialAccountAdapter() {
-            super(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return OfficialAccountArticleFragment.newInstance(officialAccountList.get(position));
-        }
-
-        @Override
-        public int getCount() {
-            return officialAccountList.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return officialAccountList.get(position).getName();
-        }
-    }
-
-    ;
 }

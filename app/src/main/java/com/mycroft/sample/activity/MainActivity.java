@@ -12,10 +12,12 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mycroft.lib.util.FragmentSwitcher;
 import com.mycroft.sample.R;
-import com.mycroft.sample.adapter.OfficialAccountFragment;
 import com.mycroft.sample.common.CommonActivity;
+import com.mycroft.sample.fragment.ArticleListFragment;
 import com.mycroft.sample.fragment.CategoryFragment;
-import com.mycroft.sample.fragment.MainFragment;
+import com.mycroft.sample.fragment.OfficialAccountFragment;
+import com.mycroft.sample.fragment.ProjectFragment;
+import com.mycroft.sample.fragment.ToolsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +66,13 @@ public class MainActivity extends CommonActivity {
                     break;
                 case R.id.officialAccountMenu:
                     fragmentSwitcher.startFragment(2);
+                    break;
+                case R.id.toolMenu:
+                    fragmentSwitcher.startFragment(3);
+                    break;
+                case R.id.projectMenu:
+                    fragmentSwitcher.startFragment(4);
+                    break;
                 default:
                     break;
             }
@@ -79,13 +88,17 @@ public class MainActivity extends CommonActivity {
     private final FragmentSwitcher.FragmentAdapter adapter = position -> {
         switch (position) {
             case 0:
-                return MainFragment.newInstance();
+                return ArticleListFragment.newInstance("/article/list/%d/json", 1);
             case 1:
                 return CategoryFragment.newInstance();
             case 2:
                 return OfficialAccountFragment.newInstance();
+            case 3:
+                return ToolsFragment.newInstance();
+            case 4:
+                return ProjectFragment.newInstance();
             default:
-                return MainFragment.newInstance();
+                return ArticleListFragment.newInstance("/article/list/%d/json", 1);
         }
     };
 }

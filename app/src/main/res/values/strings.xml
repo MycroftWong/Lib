@@ -3,4 +3,6 @@
     <string name="empty">正在加载中&#8230;</string>
     <string name="category">知识体系</string>
     <string name="official_account">公众号</string>
+    <string name="tool">导航</string>
+    <string name="project">项目</string>
 </resources>

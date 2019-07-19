@@ -9,9 +9,12 @@ import com.mycroft.sample.exception.NetDataException;
 import com.mycroft.sample.model.ArticleListModel;
 import com.mycroft.sample.model.Category;
 import com.mycroft.sample.model.OfficialAccount;
+import com.mycroft.sample.model.Project;
+import com.mycroft.sample.model.Tools;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -63,8 +66,8 @@ public final class NetService {
 
     private final IApiService service;
 
-    public Observable<ArticleListModel> getArticleList(int page) {
-        Observable<NetModel<ArticleListModel>> observable = service.getArticleList(page);
+    public Observable<ArticleListModel> getArticleList(String url, int page) {
+        Observable<NetModel<ArticleListModel>> observable = service.getArticleList(String.format(Locale.US, url, page));
         return handleResult(observable);
     }
 
@@ -75,6 +78,16 @@ public final class NetService {
 
     public Observable<List<OfficialAccount>> getOfficialAccountList() {
         Observable<NetModel<List<OfficialAccount>>> observable = service.getOfficialAccountList();
+        return handleResult(observable);
+    }
+
+    public Observable<List<Tools>> getToolList() {
+        Observable<NetModel<List<Tools>>> observable = service.getToolList();
+        return handleResult(observable);
+    }
+
+    public Observable<List<Project>> getProjectList() {
+        Observable<NetModel<List<Project>>> observable = service.getProjectList();
         return handleResult(observable);
     }
 
