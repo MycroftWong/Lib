@@ -52,7 +52,7 @@ public class MainActivity extends CommonActivity {
     }
 
     @Override
-    protected void initViews(@Nullable Bundle savedInstanceState) {
+    protected void initViews() {
         ImmersionBar.with(this)
                 .fitsSystemWindows(true)
                 .statusBarColor(R.color.colorPrimaryDark)
@@ -106,7 +106,7 @@ public class MainActivity extends CommonActivity {
     }
 
     @Override
-    protected void loadData(@Nullable Bundle savedInstanceState) {
+    protected void loadData() {
 
     }
 

@@ -14,10 +14,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
+import com.mycroft.sample.adapter.OfficialAccountAdapter;
 import com.mycroft.sample.adapter.ProjectPagerAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Project;
 import com.mycroft.sample.net.NetService;
+import com.mycroft.sample.view.OnTabSelectedAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,12 +77,21 @@ public class ProjectFragment extends CommonFragment {
 
                     holder.showLoadSuccess();
                     projectList.addAll(projects);
-                    viewPager.setAdapter(new ProjectPagerAdapter(getChildFragmentManager(), projectList));
-                    tabLayout.setupWithViewPager(viewPager);
 
                 }, throwable -> {
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());
                 }, () -> disposable = null);
+    }
+
+    private void initRealView() {
+        viewPager.setAdapter(new ProjectPagerAdapter(getChildFragmentManager(), projectList));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new OnTabSelectedAdapter() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), false);
+            }
+        });
     }
 }

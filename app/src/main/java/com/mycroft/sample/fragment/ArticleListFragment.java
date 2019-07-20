@@ -107,6 +107,7 @@ public final class ArticleListFragment extends CommonFragment {
 
         refreshLayout.setOnRefreshLoadMoreListener(refreshLoadMoreListener);
 
+        holder.showLoading();
         return holder.getWrapper();
     }
 

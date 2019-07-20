@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public final class RemoteService {
 
-    private static RemoteService sRemoteService;
+    private static RemoteService remoteService;
 
     /**
      * 进行初始化
@@ -36,32 +36,32 @@ public final class RemoteService {
      * @param maker   {@link OkHttpClient}构造器
      */
     public static void init(@NonNull Context context, @Nullable OkHttpClientMaker maker) {
-        if (sRemoteService == null) {
+        if (remoteService == null) {
             synchronized (RemoteService.class) {
-                if (sRemoteService == null) {
-                    sRemoteService = new RemoteService(context.getApplicationContext(), maker);
+                if (remoteService == null) {
+                    remoteService = new RemoteService(context.getApplicationContext(), maker);
                 }
             }
         }
     }
 
     public static RemoteService getImpl() {
-        if (sRemoteService == null) {
+        if (remoteService == null) {
             throw new IllegalStateException("RemoteService has not been initialized!");
         }
-        return sRemoteService;
+        return remoteService;
     }
 
-    private final OkHttpClient mHttpClient;
+    private final OkHttpClient httpClient;
 
-    private ArrayMap<String, Retrofit> mRetrofitMap = new ArrayMap<>();
+    private ArrayMap<String, Retrofit> retrofitMap = new ArrayMap<>();
 
     private RemoteService(Context appContext, @Nullable OkHttpClientMaker maker) {
         if (maker == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LogUtils::d);
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
 
-            mHttpClient = new OkHttpClient.Builder()
+            httpClient = new OkHttpClient.Builder()
                     .cache(new Cache(new File(appContext.getCacheDir(), "net"), 10 << 20))
                     .readTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(15, TimeUnit.SECONDS)
@@ -69,7 +69,7 @@ public final class RemoteService {
                     .addNetworkInterceptor(loggingInterceptor)
                     .build();
         } else {
-            mHttpClient = maker.makeOkHttpClient();
+            httpClient = maker.makeOkHttpClient();
         }
     }
 
@@ -79,14 +79,14 @@ public final class RemoteService {
      * @param baseUrl 构造{@link Retrofit}时的base url
      */
     public void initRetrofit(@NonNull String baseUrl, @Nullable RetrofitMaker maker) {
-        if (mRetrofitMap.containsKey(baseUrl)) {
+        if (retrofitMap.containsKey(baseUrl)) {
             return;
         }
         final Retrofit retrofit;
         if (maker == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .client(mHttpClient)
+                    .client(httpClient)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(StringConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
@@ -94,7 +94,7 @@ public final class RemoteService {
         } else {
             retrofit = maker.makeRetrofit(baseUrl);
         }
-        mRetrofitMap.put(baseUrl, retrofit);
+        retrofitMap.put(baseUrl, retrofit);
     }
 
     /**
@@ -103,7 +103,7 @@ public final class RemoteService {
      * @return {@link OkHttpClient}
      */
     public OkHttpClient getHttpClient() {
-        return mHttpClient;
+        return httpClient;
     }
 
     /**
@@ -114,7 +114,7 @@ public final class RemoteService {
      * @return api 接口实现类
      */
     public <T> T createApiService(String baseUrl, @NonNull Class<T> klazz) {
-        Retrofit retrofit = mRetrofitMap.get(baseUrl);
+        Retrofit retrofit = retrofitMap.get(baseUrl);
         if (retrofit != null) {
             return retrofit.create(klazz);
         } else {

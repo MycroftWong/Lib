@@ -17,6 +17,7 @@ import com.mycroft.sample.R;
 import com.mycroft.sample.adapter.CategoryDetailAdapter;
 import com.mycroft.sample.common.CommonActivity;
 import com.mycroft.sample.model.Category;
+import com.mycroft.sample.view.OnTabSelectedAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +62,7 @@ public class CategoryDetailActivity extends CommonActivity {
     ViewPager viewPager;
 
     @Override
-    protected void initViews(@Nullable Bundle savedInstanceState) {
+    protected void initViews() {
         ImmersionBar.with(this)
                 .fitsSystemWindows(true)
                 .statusBarColor(R.color.colorPrimaryDark)
@@ -90,10 +91,16 @@ public class CategoryDetailActivity extends CommonActivity {
 
         viewPager.setAdapter(new CategoryDetailAdapter(getSupportFragmentManager(), category));
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new OnTabSelectedAdapter() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), false);
+            }
+        });
     }
 
     @Override
-    protected void loadData(@Nullable Bundle savedInstanceState) {
+    protected void loadData() {
 
     }
 

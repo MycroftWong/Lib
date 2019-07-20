@@ -18,6 +18,7 @@ import com.mycroft.sample.adapter.OfficialAccountAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.OfficialAccount;
 import com.mycroft.sample.net.NetService;
+import com.mycroft.sample.view.OnTabSelectedAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +76,23 @@ public class OfficialAccountFragment extends CommonFragment {
 
         disposable = NetService.getInstance().getOfficialAccountList()
                 .subscribe(officialAccounts -> {
-
                     holder.showLoadSuccess();
                     officialAccountList.addAll(officialAccounts);
-                    viewPager.setAdapter(new OfficialAccountAdapter(getChildFragmentManager(), officialAccountList));
-                    tabLayout.setupWithViewPager(viewPager);
-
+                    initRealView();
                 }, throwable -> {
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());
                 }, () -> disposable = null);
+    }
+
+    private void initRealView() {
+        viewPager.setAdapter(new OfficialAccountAdapter(getChildFragmentManager(), officialAccountList));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new OnTabSelectedAdapter() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), false);
+            }
+        });
     }
 }

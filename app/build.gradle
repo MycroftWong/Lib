@@ -44,4 +44,6 @@ dependencies {
     implementation 'com.github.donkingliang:LabelsView:1.5.0'
 
     implementation 'com.hjq:titlebar:6.0'
+
+    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 }

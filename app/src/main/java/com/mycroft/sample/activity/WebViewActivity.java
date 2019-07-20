@@ -62,7 +62,7 @@ public class WebViewActivity extends CommonActivity {
     private AgentWeb agentWeb;
 
     @Override
-    protected void initViews(@Nullable Bundle savedInstanceState) {
+    protected void initViews() {
         ImmersionBar.with(this)
                 .fitsSystemWindows(true)
                 .statusBarColor(R.color.colorPrimaryDark)
@@ -108,7 +108,7 @@ public class WebViewActivity extends CommonActivity {
     }
 
     @Override
-    protected void loadData(@Nullable Bundle savedInstanceState) {
+    protected void loadData() {
 
     }
 

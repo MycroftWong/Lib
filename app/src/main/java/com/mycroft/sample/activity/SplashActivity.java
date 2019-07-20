@@ -35,14 +35,14 @@ public class SplashActivity extends CommonActivity {
     }
 
     @Override
-    protected void initViews(@Nullable Bundle savedInstanceState) {
+    protected void initViews() {
 
     }
 
     private Disposable disposable;
 
     @Override
-    protected void loadData(@Nullable Bundle savedInstanceState) {
+    protected void loadData() {
         disposable = Observable.just(System.currentTimeMillis())
                 .subscribeOn(Schedulers.io())
                 .map(startTime -> {

@@ -4,11 +4,11 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Looper;
 
-import com.mycroft.lib.R;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.mycroft.lib.R;
 
 /**
  * Created by Mycroft_Wong on 2015/12/30.
@@ -22,8 +22,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         initFields(savedInstanceState);
         super.onCreate(savedInstanceState);
         setContentView(getResId());
-        initViews(savedInstanceState);
-        loadData(savedInstanceState);
+        initViews();
+        loadData();
     }
 
     /**
@@ -42,17 +42,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 初始化view, 在{@link android.app.Activity#setContentView(int)}之后调用
-     *
-     * @param savedInstanceState 保存的状态
      */
-    protected abstract void initViews(@Nullable Bundle savedInstanceState);
+    protected abstract void initViews();
 
     /**
      * 加载数据，在所有初始化完成之后调用
-     *
-     * @param savedInstanceState 保存的状态
      */
-    protected abstract void loadData(@Nullable Bundle savedInstanceState);
+    protected abstract void loadData();
 
     private Dialog mLoadingDialog;
 
