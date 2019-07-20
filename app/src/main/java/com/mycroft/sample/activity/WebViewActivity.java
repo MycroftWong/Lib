@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.OnTitleBarListener;
@@ -70,7 +71,7 @@ public class WebViewActivity extends CommonActivity {
                 .init();
 
         TitleBar titleBar = findViewById(R.id.titleBar);
-        titleBar.setTitle(article.getTitle());
+        titleBar.setTitle(HtmlCompat.fromHtml(article.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
         titleBar.setOnTitleBarListener(new OnTitleBarListener() {
             @Override
             public void onLeftClick(View v) {

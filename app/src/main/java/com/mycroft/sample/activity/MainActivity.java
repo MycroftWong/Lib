@@ -99,7 +99,7 @@ public class MainActivity extends CommonActivity {
 
             @Override
             public void onRightClick(View v) {
-                // TODO: 2019/7/19 添加搜索
+                startActivity(SearchActivity.getIntent(MainActivity.this));
             }
         });
 

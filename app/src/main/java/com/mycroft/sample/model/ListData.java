@@ -2,7 +2,7 @@ package com.mycroft.sample.model;
 
 import java.util.List;
 
-public class ArticleListModel {
+public final class ListData<T> {
 
     /**
      * curPage : 1
@@ -20,7 +20,7 @@ public class ArticleListModel {
     private int pageCount;
     private int size;
     private int total;
-    private List<Article> datas;
+    private List<T> datas;
 
     public int getCurPage() {
         return curPage;
@@ -70,11 +70,12 @@ public class ArticleListModel {
         this.total = total;
     }
 
-    public List<Article> getDatas() {
+    public List<T> getDatas() {
         return datas;
     }
 
-    public void setDatas(List<Article> datas) {
+    public void setDatas(List<T> datas) {
         this.datas = datas;
     }
+
 }

@@ -1,7 +1,9 @@
 package com.mycroft.sample.net;
 
-import com.mycroft.sample.model.ArticleListModel;
+import com.mycroft.sample.model.Article;
 import com.mycroft.sample.model.Category;
+import com.mycroft.sample.model.HotKey;
+import com.mycroft.sample.model.ListData;
 import com.mycroft.sample.model.OfficialAccount;
 import com.mycroft.sample.model.Project;
 import com.mycroft.sample.model.Tools;
@@ -9,7 +11,11 @@ import com.mycroft.sample.model.Tools;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 /**
@@ -35,7 +41,7 @@ public interface IApiService {
      * @return
      */
     @GET
-    Observable<NetModel<ArticleListModel>> getArticleList(@Url String url);
+    Observable<NetModel<ListData<Article>>> getArticleList(@Url String url);
 
     /**
      * 获取导航数据
@@ -52,4 +58,23 @@ public interface IApiService {
      */
     @GET("project/tree/json")
     Observable<NetModel<List<Project>>> getProjectList();
+
+    /**
+     * 热门搜索词
+     *
+     * @return
+     */
+    @GET("/hotkey/json")
+    Observable<NetModel<List<HotKey>>> getHotKeyList();
+
+    /**
+     * 搜索
+     *
+     * @param key  搜索关键字
+     * @param page page start with 0
+     * @return
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    Observable<NetModel<ListData<Article>>> search(@Field("k") String key, @Path("page") int page);
 }

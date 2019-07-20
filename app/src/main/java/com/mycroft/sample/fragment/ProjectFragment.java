@@ -14,7 +14,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
-import com.mycroft.sample.adapter.OfficialAccountAdapter;
 import com.mycroft.sample.adapter.ProjectPagerAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Project;
@@ -77,7 +76,7 @@ public class ProjectFragment extends CommonFragment {
 
                     holder.showLoadSuccess();
                     projectList.addAll(projects);
-
+                    initRealView();
                 }, throwable -> {
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());

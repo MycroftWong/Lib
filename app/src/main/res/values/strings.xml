@@ -5,4 +5,8 @@
     <string name="official_account">公众号</string>
     <string name="tool">导航</string>
     <string name="project">项目</string>
+    <string name="hint_search">输入关键字进行搜索</string>
+    <string name="label_hot_key">热门搜索</string>
+    <string name="label_history_key">历史搜索</string>
+    <string name="text_clear_all">清空</string>
 </resources>

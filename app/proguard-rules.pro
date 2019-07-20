@@ -19,3 +19,88 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.mycroft.sample.model.** {
+    *;
+}
+
+-keep class com.mycroft.sample.net.NetModel {
+    *;
+}
+
+-ignorewarnings
+##start------------------------------android系统相关----------------------------------------------
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService
+##end------------------------------android系统相关-------------------------------------------------
+##start---------------------------Context-----------------------------------------------------------
+-keepclassmembers class * extends android.content.Context {
+public void *(android.view.View);
+public void *(android.view.MenuItem);
+}
+##end-----------------------------Context-----------------------------------------------------------
+##start------------------------------枚举类不混淆--------------------------------------------------
+-keepclassmembers enum * {
+public static **[] values();
+public static ** valueOf(java.lang.String);
+}
+##end----------------------------------枚举类不混淆------------------------------------------------
+##start------------------------------继承自View的控件----------------------------------------------
+-keep public class * extends android.view.View {
+public <init>(android.content.Context);
+public <init>(android.content.Context, android.util.AttributeSet);
+public <init>(android.content.Context, android.util.AttributeSet, int);
+public *** set*(...);
+public *** get*(...);
+}
+-keepclasseswithmembers class * {
+public <init>(android.content.Context, android.util.AttributeSet);
+}
+-keepclasseswithmembers class * {
+public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+##end------------------------------继承自View的控件------------------------------------------------
+##start-----------------------------native方法----------------------------------------------------
+-keepclasseswithmembernames,includedescriptorclasses class * {
+native <methods>;
+}
+-keepclasseswithmembernames class * {
+native <methods>;
+}
+##end--------------------------------native方法--------------------------------------------------
+##start------------------------------Parcelable CREATOR变量---------------------------------------
+-keepclassmembers class * implements android.os.Parcelable {
+static ** CREATOR;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+public static final android.os.Parcelable$Creator CREATOR;
+}
+##end------------------------------Parcelable CREATOR变量-----------------------------------------
+##start-----------------------------Serializable----------------------------------------------------
+#保持 Serializable 不被混淆
+-keepnames class * implements java.io.Serializable
+#保持 Serializable 不被混淆并且enum 类也不被混淆
+-keepclassmembers class * implements java.io.Serializable {
+static final long serialVersionUID;
+private static final java.io.ObjectStreamField[] serialPersistentFields;
+!static !transient <fields>;
+!private <fields>;
+!private <methods>;
+private void writeObject(java.io.ObjectOutputStream);
+private void readObject(java.io.ObjectInputStream);
+java.lang.Object writeReplace();
+java.lang.Object readResolve();
+}
+##end--------------------------------Serializable---------------------------------------------------
+##start------------------------------R文件的静态成员-----------------------------------------------
+-keep class **.R$* {
+public static <fields>;
+}
+-keep class **.R
+##end------------------------------R文件静态成员---------------------------------------------------

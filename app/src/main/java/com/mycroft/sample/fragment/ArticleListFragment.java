@@ -12,15 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
 import com.mycroft.sample.activity.WebViewActivity;
-import com.mycroft.sample.adapter.ArticleListAdapter;
+import com.mycroft.sample.adapter.SearchResultAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Article;
 import com.mycroft.sample.net.NetService;
@@ -87,7 +85,7 @@ public final class ArticleListFragment extends CommonFragment {
 
     private final ArrayList<Article> articleList = new ArrayList<>();
 
-    private BaseQuickAdapter<Article, BaseViewHolder> adapter;
+    private SearchResultAdapter adapter;
 
     private LoadingHolder holder;
     private SmartRefreshLayout refreshLayout;
@@ -101,14 +99,23 @@ public final class ArticleListFragment extends CommonFragment {
 
         holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> loadData(startPage));
 
-        adapter = new ArticleListAdapter(articleList);
+        adapter = new SearchResultAdapter(articleList);
         adapter.setOnItemClickListener((a, v, position) -> startActivity(WebViewActivity.getIntent(getContext(), articleList.get(position))));
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setOnRefreshLoadMoreListener(refreshLoadMoreListener);
 
-        holder.showLoading();
         return holder.getWrapper();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (articleList.isEmpty()) {
+            holder.showLoading();
+        } else {
+            holder.showLoadSuccess();
+        }
     }
 
     @Override
@@ -116,8 +123,6 @@ public final class ArticleListFragment extends CommonFragment {
         super.onResume();
         if (articleList.isEmpty()) {
             loadData(startPage);
-        } else {
-            holder.showLoadSuccess();
         }
     }
 

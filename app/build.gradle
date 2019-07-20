@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'AndResGuard'
 
 android {
     compileSdkVersion 29
@@ -12,10 +13,26 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../release.jks")
+            storePassword "release"
+            keyAlias "release.jks"
+            keyPassword "release"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            jniDebuggable true
+            signingConfig signingConfigs.release
+            renderscriptDebuggable true
+            debuggable true
         }
     }
     compileOptions {
@@ -46,4 +63,28 @@ dependencies {
     implementation 'com.hjq:titlebar:6.0'
 
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
+
+    // https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0-alpha02'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02'
+
+}
+
+
+andResGuard {
+    mappingFile = null
+    use7zip = true
+    useSign = true
+    keepRoot = false
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.10'
+    }
 }

@@ -6,8 +6,10 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.mycroft.lib.net.RemoteService;
 import com.mycroft.lib.net.StringConverterFactory;
 import com.mycroft.sample.exception.NetDataException;
-import com.mycroft.sample.model.ArticleListModel;
+import com.mycroft.sample.model.Article;
 import com.mycroft.sample.model.Category;
+import com.mycroft.sample.model.HotKey;
+import com.mycroft.sample.model.ListData;
 import com.mycroft.sample.model.OfficialAccount;
 import com.mycroft.sample.model.Project;
 import com.mycroft.sample.model.Tools;
@@ -67,8 +69,8 @@ public final class NetService {
 
     private final IApiService service;
 
-    public Observable<ArticleListModel> getArticleList(String url, int page) {
-        Observable<NetModel<ArticleListModel>> observable = service.getArticleList(String.format(Locale.US, url, page));
+    public Observable<ListData<Article>> getArticleList(String url, int page) {
+        Observable<NetModel<ListData<Article>>> observable = service.getArticleList(String.format(Locale.US, url, page));
         return handleResult(observable);
     }
 
@@ -92,16 +94,28 @@ public final class NetService {
         return handleResult(observable);
     }
 
+    public Observable<List<HotKey>> getHotKeyList() {
+        Observable<NetModel<List<HotKey>>> observable = service.getHotKeyList();
+        return handleResult(observable);
+    }
+
+    public Observable<ListData<Article>> search(String key, int page) {
+        Observable<NetModel<ListData<Article>>> observable = service.search(key, page);
+        return handleResult(observable);
+    }
+
     private static <T> Observable<T> handleResult(Observable<NetModel<T>> observable) {
         return observable
-                .compose(async())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .map(articleListModelNetModel -> {
                     if (articleListModelNetModel.getErrorCode() == 0) {
                         return articleListModelNetModel.getData();
                     } else {
                         throw NetDataException.newInstance(articleListModelNetModel.getErrorMsg());
                     }
-                });
+                })
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
