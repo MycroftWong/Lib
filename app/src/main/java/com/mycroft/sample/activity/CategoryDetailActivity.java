@@ -22,6 +22,9 @@ import com.mycroft.sample.view.OnTabSelectedAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author wangqiang
+ */
 public class CategoryDetailActivity extends CommonActivity {
 
     private static final String EXTRA_CATEGORY = "category.extra";

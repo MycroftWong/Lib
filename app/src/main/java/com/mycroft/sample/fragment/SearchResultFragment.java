@@ -18,6 +18,7 @@ import com.mycroft.sample.R;
 import com.mycroft.sample.activity.WebViewActivity;
 import com.mycroft.sample.adapter.SearchResultAdapter;
 import com.mycroft.sample.common.CommonFragment;
+import com.mycroft.sample.dao.HistoryKeyService;
 import com.mycroft.sample.model.Article;
 import com.mycroft.sample.net.NetService;
 import com.mycroft.sample.shared.SearchViewModel;
@@ -111,6 +112,9 @@ public class SearchResultFragment extends CommonFragment {
             showLoadingDialog();
             searchResultList.clear();
         }
+
+        HistoryKeyService.addHistoryKey(getContext(), key);
+
         disposable = NetService.getInstance().search(key, page)
                 .subscribe(listData -> {
                     nextPage = listData.getCurPage() + 1;

@@ -1,5 +1,8 @@
 package com.mycroft.sample.model;
 
+/**
+ * @author wangqiang
+ */
 public final class HotKey {
 
     /**
