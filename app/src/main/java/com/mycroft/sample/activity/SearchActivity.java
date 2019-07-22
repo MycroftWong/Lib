@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mycroft.sample.R;
 import com.mycroft.sample.common.CommonActivity;
 import com.mycroft.sample.fragment.HistorySearchFragment;
@@ -67,12 +68,18 @@ public class SearchActivity extends CommonActivity {
 
     @Override
     protected void initViews() {
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimaryDark)
+                .statusBarDarkFont(true)
+                .init();
+
         ButterKnife.bind(this);
 
         searchEdit.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 CharSequence sequence = searchEdit.getText();
-                if (!TextUtils.isEmpty(sequence)) {
+                if (!TextUtils.isEmpty(sequence) && TextUtils.getTrimmedLength(sequence) > 0) {
                     searchViewModel.setSearchKey(sequence.toString());
                 }
                 return true;
@@ -126,15 +133,15 @@ public class SearchActivity extends CommonActivity {
 
     private void search() {
         KeyboardUtils.hideSoftInput(searchEdit);
-        showResult();
+        if (!searchResultFragment.isVisible()) {
+            showResult();
+        }
     }
 
     private void showResult() {
         getSupportFragmentManager().beginTransaction()
                 .show(searchResultFragment)
                 .hide(historySearchFragment)
-//                .setMaxLifecycle(searchResultFragment, Lifecycle.State.RESUMED)
-//                .setMaxLifecycle(historySearchFragment, Lifecycle.State.CREATED)
                 .commit();
     }
 
@@ -142,8 +149,6 @@ public class SearchActivity extends CommonActivity {
         getSupportFragmentManager().beginTransaction()
                 .show(historySearchFragment)
                 .hide(searchResultFragment)
-//                .setMaxLifecycle(historySearchFragment, Lifecycle.State.RESUMED)
-//                .setMaxLifecycle(searchResultFragment, Lifecycle.State.CREATED)
                 .commit();
     }
 }

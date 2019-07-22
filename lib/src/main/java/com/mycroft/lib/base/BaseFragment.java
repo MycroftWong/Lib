@@ -32,8 +32,10 @@ public abstract class BaseFragment extends Fragment {
      */
     protected final void showLoadingDialog(boolean cancelable) {
         if (mLoadingDialog == null) {
-            mLoadingDialog = createLoadingDialog(cancelable);
+            mLoadingDialog = createLoadingDialog();
         }
+        mLoadingDialog.setCancelable(cancelable);
+
         if (Looper.myLooper() == Looper.getMainLooper()) {
             mLoadingDialog.show();
         } else {
@@ -44,14 +46,12 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 构造通用的加载{@link Dialog}, 在子类中重写，可以更改样式
      *
-     * @param cancelable 是否允许点击空白处取消
      * @return 通用的加载Dialog
      */
     @NonNull
-    protected Dialog createLoadingDialog(boolean cancelable) {
+    protected Dialog createLoadingDialog() {
         Dialog dialog = new Dialog(getContext(), R.style.LoadingDialog);
         dialog.setContentView(R.layout.common_dialog);
-        dialog.setCancelable(cancelable);
         return dialog;
     }
 

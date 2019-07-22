@@ -5,6 +5,9 @@ import com.blankj.utilcode.util.Utils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.mycroft.lib.net.RemoteService;
 import com.mycroft.lib.net.StringConverterFactory;
+import com.mycroft.lib.net.cookiejar.PersistentCookieJar;
+import com.mycroft.lib.net.cookiejar.cache.SetCookieCache;
+import com.mycroft.lib.net.cookiejar.persistence.SharedPrefsCookiePersistor;
 import com.mycroft.sample.exception.NetDataException;
 import com.mycroft.sample.model.Article;
 import com.mycroft.sample.model.Category;
@@ -24,6 +27,7 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
+import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -46,7 +50,12 @@ public final class NetService {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LogUtils::w);
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
 
+        CookieJar cookieJar = new PersistentCookieJar(
+                new SetCookieCache(),
+                new SharedPrefsCookiePersistor(Utils.getApp()));
+
         OkHttpClient httpClient = new OkHttpClient.Builder()
+                .cookieJar(cookieJar)
                 .cache(new Cache(new File(Utils.getApp().getCacheDir(), "net"), 10 << 20))
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)

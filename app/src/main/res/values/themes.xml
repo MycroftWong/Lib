@@ -15,6 +15,7 @@
         <item name="buttonStyle">@style/CommonButtonStyle</item>
         <item name="editTextStyle">@style/CommonEditTextStyle</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:listDivider">@drawable/line</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">

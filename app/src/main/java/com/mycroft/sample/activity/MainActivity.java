@@ -48,7 +48,6 @@ public class MainActivity extends CommonActivity {
 
     @Override
     protected void initFields(@Nullable Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -88,6 +87,7 @@ public class MainActivity extends CommonActivity {
             }
             return true;
         });
+
         titleBar.setOnTitleBarListener(new OnTitleBarListener() {
             @Override
             public void onLeftClick(View v) {

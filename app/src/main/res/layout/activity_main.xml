@@ -29,12 +29,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_navigation"
         android:layout_gravity="bottom"
-        app:itemBackground="@android:color/white"
+        android:background="@color/colorPrimary"
         app:itemHorizontalTranslationEnabled="false"
-        app:itemIconTint="@color/tab_item_color"
+        app:itemIconTint="@color/color_main_bottom_navigation"
         app:itemTextAppearanceActive="@style/MainBottomNavigationTextAppearanceActive"
         app:itemTextAppearanceInactive="@style/MainBottomNavigationTextAppearanceInactive"
-        app:itemTextColor="@color/common_text_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_main" />
 </FrameLayout>

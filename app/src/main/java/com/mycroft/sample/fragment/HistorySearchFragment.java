@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -18,6 +21,7 @@ import com.mycroft.sample.adapter.HistorySearchAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.dao.HistoryKeyService;
 import com.mycroft.sample.model.HistoryKey;
+import com.mycroft.sample.shared.SearchViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +46,12 @@ public class HistorySearchFragment extends CommonFragment {
         return fragment;
     }
 
+    private SearchViewModel searchViewModel;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
     }
 
     private final List<HistoryKey> historySearchKey = new ArrayList<>();
@@ -58,6 +65,18 @@ public class HistorySearchFragment extends CommonFragment {
         adapter = new HistorySearchAdapter(historySearchKey);
         adapter.addHeaderView(createHeaderView(inflater, recyclerView));
         recyclerView.setAdapter(adapter);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line));
+        recyclerView.addItemDecoration(itemDecoration);
+
+        adapter.setOnItemClickListener((a, v, position) -> searchViewModel.setSearchKey(historySearchKey.get(position).key));
+
+        adapter.setOnItemChildClickListener((a, v, position) -> {
+            HistoryKey historyKey = historySearchKey.remove(position);
+            HistoryKeyService.deleteHistoryKey(getContext(), historyKey);
+            adapter.notifyDataSetChanged();
+        });
+
         return view;
     }
 
@@ -95,6 +114,6 @@ public class HistorySearchFragment extends CommonFragment {
     private final View.OnClickListener clearClickListener = view -> {
         historySearchKey.clear();
         adapter.notifyDataSetChanged();
-        HistoryKeyService.deleteHistoryKey(getContext());
+        HistoryKeyService.clearHistoryKey(getContext());
     };
 }

@@ -29,6 +29,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="CommonLoadingDialogStyle" parent="Theme.AppCompat.Dialog">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 
     <style name="MainBottomNavigationTextAppearanceActive" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:textSize">@dimen/common_text_size_info</item>

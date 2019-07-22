@@ -15,7 +15,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_title_bar"
+        android:layout_height="@dimen/height_tab_layout"
         android:overScrollMode="never"
         app:tabMode="scrollable" />
 

@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'AndResGuard'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion = '29.0.1'
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion = "${versions.buildToolsVersion}"
 
     defaultConfig {
         applicationId "com.mycroft.sample"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -16,7 +16,9 @@ android {
         //指定room.schemaLocation生成的文件路径
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true"]
             }
         }
     }
@@ -43,8 +45,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility '1.8'
-        targetCompatibility '1.8'
+        sourceCompatibility versions.jdk
+        targetCompatibility versions.jdk
     }
 
     configurations {
@@ -65,31 +67,27 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2-alpha02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
+    testImplementation "junit:junit:${versions.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.androidjunit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.expresso}"
     implementation project(':lib')
 
-    implementation 'androidx.room:room-runtime:2.2.0-alpha01'
-    implementation 'androidx.room:room-rxjava2:2.2.0-alpha01'
-    annotationProcessor 'android.arch.persistence.room:compiler:2.2.0-alpha01'
+    implementation "androidx.room:room-runtime:${versions.room}"
+    implementation "androidx.room:room-rxjava2:${versions.room}"
+    annotationProcessor "androidx.room:room-compiler:${versions.room}"
 
     // agent web
     implementation 'com.just.agentweb:agentweb:4.0.3-beta@aar'
 
     // butter knife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation "com.jakewharton:butterknife:${versions.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
 
     implementation 'com.github.donkingliang:LabelsView:1.5.0'
 
     implementation 'com.hjq:titlebar:6.0'
 
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
-
 }
 
 

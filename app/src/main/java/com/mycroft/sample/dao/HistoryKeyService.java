@@ -14,6 +14,11 @@ import io.reactivex.FlowableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * 搜索历史 service
+ *
+ * @author wangqiang
+ */
 public final class HistoryKeyService {
 
     public static HistoryKeyService getInstance() {
@@ -28,8 +33,12 @@ public final class HistoryKeyService {
         BackgroundService.addHistoryKey(context, key);
     }
 
-    public static void deleteHistoryKey(@NonNull Context context) {
-        BackgroundService.deleteHistoryKey(context);
+    public static void clearHistoryKey(@NonNull Context context) {
+        BackgroundService.clearHistoryKey(context);
+    }
+
+    public static void deleteHistoryKey(@NonNull Context context, @NonNull HistoryKey historyKey) {
+        BackgroundService.deleteHistoryKey(context, historyKey);
     }
 
     private final HistoryKeyDao historyKeyDao;
@@ -51,21 +60,6 @@ public final class HistoryKeyService {
             historyKey.id = queried.id;
             return Flowable.just((long) historyKeyDao.updateHistoryKey(historyKey));
         }
-
-//        return historyKeyDao.add(historyKey)
-//                .subscribeOn(Schedulers.io())
-//                .unsubscribeOn(Schedulers.io())
-//                .flatMap(new Function<Long, Publisher<Long>>() {
-//                    @Override
-//                    public Publisher<Long> apply(Long aLong) throws Throwable {
-//                        if (aLong > 0) {
-//                            return Flowable.just(aLong);
-//                        } else {
-//                            return historyKeyDao.update;
-//                        }
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Flowable<Long> clearHistory() {
@@ -76,6 +70,10 @@ public final class HistoryKeyService {
     public Flowable<List<HistoryKey>> getAllHistoryKey() {
         return historyKeyDao.getAllHistoryKey()
                 .compose(async());
+    }
+
+    public Flowable<Integer> deleteHistoryKey(HistoryKey historyKey) {
+        return Flowable.just(historyKeyDao.delete(historyKey));
     }
 
     private static <T> FlowableTransformer<T, T> async() {

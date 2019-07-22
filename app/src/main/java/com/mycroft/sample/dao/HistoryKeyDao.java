@@ -12,6 +12,11 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 
+/**
+ * 搜索历史dao
+ *
+ * @author wangqiang
+ */
 @Dao
 public interface HistoryKeyDao {
 
@@ -29,4 +34,7 @@ public interface HistoryKeyDao {
 
     @Update
     int updateHistoryKey(HistoryKey historyKey);
+
+    @Delete
+    int delete(HistoryKey historyKey);
 }
