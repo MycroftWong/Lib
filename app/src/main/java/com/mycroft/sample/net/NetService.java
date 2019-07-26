@@ -16,8 +16,9 @@ import com.mycroft.sample.model.ListData;
 import com.mycroft.sample.model.OfficialAccount;
 import com.mycroft.sample.model.Project;
 import com.mycroft.sample.model.Tools;
+import com.mycroft.sample.service.FileServiceImpl;
+import com.mycroft.sample.service.IFileService;
 
-import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +48,8 @@ public final class NetService {
 
     private NetService() {
 
+        IFileService fileService = new FileServiceImpl();
+
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LogUtils::w);
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
 
@@ -56,7 +59,7 @@ public final class NetService {
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
-                .cache(new Cache(new File(Utils.getApp().getCacheDir(), "net"), 10 << 20))
+                .cache(new Cache(fileService.getNetCacheDir(), 10 << 20))
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)

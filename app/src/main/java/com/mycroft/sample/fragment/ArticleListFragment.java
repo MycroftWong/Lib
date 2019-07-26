@@ -18,7 +18,7 @@ import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
 import com.mycroft.sample.activity.WebViewActivity;
-import com.mycroft.sample.adapter.SearchResultAdapter;
+import com.mycroft.sample.adapter.recycler.SearchResultAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Article;
 import com.mycroft.sample.net.NetService;
@@ -97,7 +97,10 @@ public final class ArticleListFragment extends CommonFragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> loadData(startPage));
+        holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> {
+            holder.showLoading();
+            loadData(startPage);
+        });
 
         adapter = new SearchResultAdapter(articleList);
         adapter.setOnItemClickListener((a, v, position) -> startActivity(WebViewActivity.getIntent(getContext(), articleList.get(position))));

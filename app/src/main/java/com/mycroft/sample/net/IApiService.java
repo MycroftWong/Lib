@@ -31,6 +31,11 @@ public interface IApiService {
     @GET("tree/json")
     Observable<NetModel<List<Category>>> getCategoryList();
 
+    /**
+     * 获取微信公众号
+     *
+     * @return
+     */
     @GET("wxarticle/chapters/json")
     Observable<NetModel<List<OfficialAccount>>> getOfficialAccountList();
 

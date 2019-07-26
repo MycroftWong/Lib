@@ -1,4 +1,4 @@
-package com.mycroft.sample.adapter;
+package com.mycroft.sample.adapter.recycler;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

@@ -1,5 +1,10 @@
 package com.mycroft.sample.net;
 
+/**
+ * 统一的数据结构
+ *
+ * @param <T> 真实数据
+ */
 public final class NetModel<T> {
 
     /**

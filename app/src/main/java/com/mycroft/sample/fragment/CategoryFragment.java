@@ -17,7 +17,7 @@ import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
 import com.mycroft.sample.activity.CategoryDetailActivity;
-import com.mycroft.sample.adapter.CategoryAdapter;
+import com.mycroft.sample.adapter.recycler.CategoryAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Category;
 import com.mycroft.sample.net.NetService;
@@ -62,7 +62,10 @@ public class CategoryFragment extends CommonFragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        holder = Loading.getDefault().wrap(view).withRetry(this::loadData);
+        holder = Loading.getDefault().wrap(view).withRetry(() -> {
+            holder.showLoading();
+            loadData();
+        });
         holder.showLoading();
 
         adapter.expandAll();

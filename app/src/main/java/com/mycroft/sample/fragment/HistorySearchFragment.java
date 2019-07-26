@@ -17,10 +17,11 @@ import com.blankj.utilcode.util.LogUtils;
 import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
-import com.mycroft.sample.adapter.HistorySearchAdapter;
+import com.mycroft.sample.adapter.recycler.HistorySearchAdapter;
 import com.mycroft.sample.common.CommonFragment;
-import com.mycroft.sample.dao.HistoryKeyService;
 import com.mycroft.sample.model.HistoryKey;
+import com.mycroft.sample.service.HistoryKeyServiceImpl;
+import com.mycroft.sample.service.IHistoryKeyService;
 import com.mycroft.sample.shared.SearchViewModel;
 
 import java.util.ArrayList;
@@ -48,9 +49,12 @@ public class HistorySearchFragment extends CommonFragment {
 
     private SearchViewModel searchViewModel;
 
+    private IHistoryKeyService historyKeyService;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        historyKeyService = HistoryKeyServiceImpl.getInstance();
         searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
     }
 
@@ -73,7 +77,7 @@ public class HistorySearchFragment extends CommonFragment {
 
         adapter.setOnItemChildClickListener((a, v, position) -> {
             HistoryKey historyKey = historySearchKey.remove(position);
-            HistoryKeyService.deleteHistoryKey(getContext(), historyKey);
+            historyKeyService.deleteHistoryKey(historyKey);
             adapter.notifyDataSetChanged();
         });
 
@@ -85,7 +89,7 @@ public class HistorySearchFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-        disposable = HistoryKeyService.getInstance()
+        disposable = historyKeyService
                 .getAllHistoryKey()
                 .subscribe(historyKeys -> {
                             historySearchKey.clear();
@@ -114,6 +118,6 @@ public class HistorySearchFragment extends CommonFragment {
     private final View.OnClickListener clearClickListener = view -> {
         historySearchKey.clear();
         adapter.notifyDataSetChanged();
-        HistoryKeyService.clearHistoryKey(getContext());
+        historyKeyService.clearHistoryKey();
     };
 }

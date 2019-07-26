@@ -1,4 +1,4 @@
-package com.mycroft.sample.adapter;
+package com.mycroft.sample.adapter.recycler;
 
 import androidx.annotation.Nullable;
 

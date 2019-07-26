@@ -34,10 +34,7 @@ final class StatusView extends LinearLayout {
         statusText = findViewById(R.id.statusText);
         retryButton = findViewById(R.id.retryButton);
 
-        retryButton.setOnClickListener(v -> {
-            onLoading();
-            retryTask.run();
-        });
+        retryButton.setOnClickListener(v -> retryTask.run());
     }
 
     public void setStatus(int status) {

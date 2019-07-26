@@ -14,7 +14,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.mycroft.sample.R;
-import com.mycroft.sample.adapter.CategoryDetailAdapter;
+import com.mycroft.sample.adapter.pager.CategoryDetailPagerAdapter;
 import com.mycroft.sample.common.CommonActivity;
 import com.mycroft.sample.model.Category;
 import com.mycroft.sample.view.OnTabSelectedAdapter;
@@ -92,7 +92,7 @@ public class CategoryDetailActivity extends CommonActivity {
             }
         });
 
-        viewPager.setAdapter(new CategoryDetailAdapter(getSupportFragmentManager(), category));
+        viewPager.setAdapter(new CategoryDetailPagerAdapter(getSupportFragmentManager(), category));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new OnTabSelectedAdapter() {
             @Override

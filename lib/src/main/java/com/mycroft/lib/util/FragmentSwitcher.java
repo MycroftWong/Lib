@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * fragment的切换帮助类
@@ -84,6 +85,19 @@ public final class FragmentSwitcher {
         }
         currentPosition = pos;
         ft.commitAllowingStateLoss();
+    }
+
+    /**
+     * 清理资源
+     */
+    public void destroy() {
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        for (Fragment item : fragmentList) {
+            transaction.detach(item);
+        }
+
+        transaction.commitAllowingStateLoss();
     }
 
     private static String makeFragmentName(int viewId, long id) {

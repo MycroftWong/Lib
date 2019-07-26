@@ -1,4 +1,4 @@
-package com.mycroft.sample.adapter;
+package com.mycroft.sample.adapter.pager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,11 +11,11 @@ import com.mycroft.sample.model.Category;
 /**
  * @author wangqiang
  */
-public class CategoryDetailAdapter extends FragmentStatePagerAdapter {
+public class CategoryDetailPagerAdapter extends FragmentStatePagerAdapter {
 
     private final Category category;
 
-    public CategoryDetailAdapter(@NonNull FragmentManager fm, Category category) {
+    public CategoryDetailPagerAdapter(@NonNull FragmentManager fm, Category category) {
         super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.category = category;
     }

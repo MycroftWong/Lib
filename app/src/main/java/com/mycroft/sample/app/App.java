@@ -5,6 +5,9 @@ import android.app.Application;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.sample.view.SpinLoadingAdapter;
 
+/**
+ * @author wangqiang
+ */
 public class App extends Application {
 
     @Override

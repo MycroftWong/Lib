@@ -5,6 +5,11 @@ import android.view.View;
 import com.mycroft.lib.view.LoadingAdapter;
 import com.mycroft.lib.view.LoadingHolder;
 
+/**
+ * 状态view adapter
+ *
+ * @author wangqiang
+ */
 public class SpinLoadingAdapter implements LoadingAdapter {
     @Override
     public View getView(LoadingHolder holder, View convertView, int status) {

@@ -1,7 +1,7 @@
 package com.mycroft.sample.model;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.mycroft.sample.adapter.CategoryAdapter;
+import com.mycroft.sample.adapter.recycler.CategoryAdapter;
 
 public final class CategoryContent implements MultiItemEntity {
 

@@ -1,4 +1,4 @@
-package com.mycroft.sample.adapter;
+package com.mycroft.sample.adapter.pager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

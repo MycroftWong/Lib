@@ -16,7 +16,7 @@ import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
-import com.mycroft.sample.adapter.ToolsAdapter;
+import com.mycroft.sample.adapter.recycler.ToolsAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Tools;
 import com.mycroft.sample.model.ToolsHeader;
@@ -56,7 +56,10 @@ public class ToolsFragment extends CommonFragment {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        holder = Loading.getDefault().wrap(view).withRetry(this::loadData);
+        holder = Loading.getDefault().wrap(view).withRetry(() -> {
+            holder.showLoading();
+            loadData();
+        });
         holder.showLoading();
         return holder.getWrapper();
     }

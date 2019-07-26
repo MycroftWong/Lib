@@ -1,4 +1,4 @@
-package com.mycroft.sample.adapter;
+package com.mycroft.sample.adapter.recycler;
 
 import android.text.TextUtils;
 import android.view.View;

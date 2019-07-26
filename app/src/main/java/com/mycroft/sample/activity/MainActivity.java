@@ -50,6 +50,8 @@ public class MainActivity extends CommonActivity {
     protected void initFields(@Nullable Bundle savedInstanceState) {
     }
 
+    private FragmentSwitcher fragmentSwitcher;
+
     @Override
     protected void initViews() {
         ImmersionBar.with(this)
@@ -60,7 +62,7 @@ public class MainActivity extends CommonActivity {
 
         ButterKnife.bind(this);
 
-        FragmentSwitcher fragmentSwitcher = new FragmentSwitcher(getSupportFragmentManager(), R.id.container, adapter);
+        fragmentSwitcher = new FragmentSwitcher(getSupportFragmentManager(), R.id.container, adapter);
 
         fragmentSwitcher.startFragment(0);
 
@@ -108,6 +110,13 @@ public class MainActivity extends CommonActivity {
     @Override
     protected void loadData() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        fragmentSwitcher.destroy();
+        fragmentSwitcher = null;
+        super.onDestroy();
     }
 
     private final FragmentSwitcher.FragmentAdapter adapter = position -> {

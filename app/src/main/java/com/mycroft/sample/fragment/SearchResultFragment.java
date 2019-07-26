@@ -16,11 +16,12 @@ import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
 import com.mycroft.sample.activity.WebViewActivity;
-import com.mycroft.sample.adapter.SearchResultAdapter;
+import com.mycroft.sample.adapter.recycler.SearchResultAdapter;
 import com.mycroft.sample.common.CommonFragment;
-import com.mycroft.sample.dao.HistoryKeyService;
 import com.mycroft.sample.model.Article;
 import com.mycroft.sample.net.NetService;
+import com.mycroft.sample.service.HistoryKeyServiceImpl;
+import com.mycroft.sample.service.IHistoryKeyService;
 import com.mycroft.sample.shared.SearchViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -46,9 +47,13 @@ public class SearchResultFragment extends CommonFragment {
         return fragment;
     }
 
+    private IHistoryKeyService historyKeyService;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        historyKeyService = HistoryKeyServiceImpl.getInstance();
 
         ViewModelProviders.of(getActivity()).get(SearchViewModel.class)
                 .getSearchKey()
@@ -113,7 +118,7 @@ public class SearchResultFragment extends CommonFragment {
             searchResultList.clear();
         }
 
-        HistoryKeyService.addHistoryKey(getContext(), key);
+        historyKeyService.addHistoryKey(key);
 
         disposable = NetService.getInstance().search(key, page)
                 .subscribe(listData -> {

@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.mycroft.lib.view.Loading;
 import com.mycroft.lib.view.LoadingHolder;
 import com.mycroft.sample.R;
-import com.mycroft.sample.adapter.ProjectPagerAdapter;
+import com.mycroft.sample.adapter.pager.ProjectPagerAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Project;
 import com.mycroft.sample.net.NetService;
@@ -49,7 +49,10 @@ public class ProjectFragment extends CommonFragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
 
-        holder = Loading.getDefault().wrap(view).withRetry(this::loadData);
+        holder = Loading.getDefault().wrap(view).withRetry(() -> {
+            holder.showLoading();
+            loadData();
+        });
         holder.showLoading();
         return holder.getWrapper();
     }
