@@ -86,6 +86,7 @@ public class CategoryFragment extends CommonFragment {
                     categoryList.addAll(categories);
                     adapter.notifyDataSetChanged();
                 }, throwable -> {
+                    disposable = null;
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());
                 }, () -> disposable = null);

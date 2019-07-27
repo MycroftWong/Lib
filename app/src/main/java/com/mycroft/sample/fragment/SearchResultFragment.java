@@ -122,19 +122,19 @@ public class SearchResultFragment extends CommonFragment {
 
         disposable = NetService.getInstance().search(key, page)
                 .subscribe(listData -> {
-                    nextPage = listData.getCurPage() + 1;
-                    searchResultList.addAll(listData.getDatas());
+                            nextPage = listData.getCurPage() + 1;
+                            searchResultList.addAll(listData.getDatas());
 
-                    adapter.notifyDataSetChanged();
-                    if (listData.getCurPage() == START_PAGE) {
-                        recyclerView.scrollToPosition(0);
-                    }
+                            adapter.notifyDataSetChanged();
+                            if (listData.getCurPage() == START_PAGE) {
+                                recyclerView.scrollToPosition(0);
+                            }
 
-                    finishRefresh();
-                }, throwable -> {
-                    ToastUtils.showShort(throwable.getMessage());
-                    finishRefresh();
-                });
+                        }, throwable -> {
+                            ToastUtils.showShort(throwable.getMessage());
+                            finishRefresh();
+                        },
+                        this::finishRefresh);
     }
 
     private void finishRefresh() {

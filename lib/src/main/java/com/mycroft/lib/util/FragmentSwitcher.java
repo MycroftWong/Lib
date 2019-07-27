@@ -1,6 +1,7 @@
 package com.mycroft.lib.util;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,10 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * fragment的切换帮助类
+ * fragment的切换帮助类，有bug需要处理
  *
  * @author mycroft
  */
+@Deprecated
 public final class FragmentSwitcher {
 
     private final FragmentManager fragmentManager;
@@ -37,6 +39,9 @@ public final class FragmentSwitcher {
 
     private final ArrayList<Integer> saveStatePosition = new ArrayList<>();
 
+    /**
+     * @param saveStatePosition 不保留{@link Fragment}实例，而是保留{@link Fragment.SavedState}的位置
+     */
     public void setSaveStatePosition(Integer... saveStatePosition) {
         this.saveStatePosition.addAll(Arrays.asList(saveStatePosition));
     }
@@ -46,45 +51,96 @@ public final class FragmentSwitcher {
         FragmentTransaction ft = fragmentManager
                 .beginTransaction();
 
-        Fragment fragment = fragmentManager.findFragmentByTag(makeFragmentName(containerId, pos));
+        Fragment fragment = createFragment(ft, pos);
+        setPrimaryFragment(ft, fragment);
+//
+////        Fragment fragment = fragmentManager.findFragmentByTag(makeFragmentName(containerId, pos));
+//
+//        if (fragment == null) {
+//            // if not exists, create it
+//            fragment = adapter.getFragmentBy(pos);
+//
+//            ft.add(containerId, fragment, makeFragmentName(containerId, pos))
+//                    .setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
+//
+//            if (currentFragment != null) {
+//                ft.hide(currentFragment)
+//                        .setMaxLifecycle(currentFragment, Lifecycle.State.STARTED);
+//            }
+//
+////            Fragment.SavedState fss = savedStateArrayMap.get(pos);
+////            if (fss != null) {
+////                fragment.setInitialSavedState(fss);
+////            }
+//
+//            currentFragment = fragment;
+//        } else {
+//            ft.attach(fragment);
+//
+//            if (fragment != currentFragment) {
+//                ft.show(fragment)
+//                        .setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
+//
+////                if (currentFragment != null) {
+////                    if (saveStatePosition.contains(currentPosition)) {
+////                        savedStateArrayMap.put(currentPosition,
+////                                currentFragment.isAdded() ? fragmentManager.saveFragmentInstanceState(currentFragment) : null);
+////
+////                        ft.remove(currentFragment);
+////                    } else {
+////                        ft.hide(currentFragment)
+////                                .setMaxLifecycle(currentFragment, Lifecycle.State.STARTED);
+////                    }
+////                }
+//            }
+//        }
+//
+//        if (fragment != currentFragment) {
+//            fragment.setMenuVisibility(false);
+//            ft.setMaxLifecycle(fragment, Lifecycle.State.STARTED);
+//        }
+//
+//        currentFragment = fragment;
 
-        if (fragment == null) {
-            fragment = adapter.getFragmentBy(pos);
-
-            if (currentFragment != null) {
-                ft.hide(currentFragment)
-                        .setMaxLifecycle(currentFragment, Lifecycle.State.STARTED);
-            }
-
-            Fragment.SavedState fss = savedStateArrayMap.get(pos);
-            if (fss != null) {
-                fragment.setInitialSavedState(fss);
-            }
-            ft.add(containerId, fragment, makeFragmentName(containerId, pos))
-                    .setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
-
-            currentFragment = fragment;
-        } else {
-            if (fragment != currentFragment) {
-                ft.show(fragment)
-                        .setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
-
-                if (currentFragment != null) {
-                    if (saveStatePosition.contains(currentPosition)) {
-                        savedStateArrayMap.put(currentPosition,
-                                currentFragment.isAdded() ? fragmentManager.saveFragmentInstanceState(currentFragment) : null);
-
-                        ft.remove(currentFragment);
-                    } else {
-                        ft.hide(currentFragment)
-                                .setMaxLifecycle(currentFragment, Lifecycle.State.STARTED);
-                    }
-                }
-                currentFragment = fragment;
-            }
-        }
         currentPosition = pos;
         ft.commitAllowingStateLoss();
+    }
+
+    /**
+     * @param fragmentTransaction fragment transaction
+     * @param position            position
+     * @return fragment of position
+     */
+    private Fragment createFragment(@NonNull FragmentTransaction fragmentTransaction, int position) {
+        String name = makeFragmentName(containerId, position);
+        Fragment fragment = fragmentManager.findFragmentByTag(name);
+
+        if (fragment == null) {
+            fragment = adapter.getFragmentBy(position);
+            fragmentTransaction.add(containerId, fragment, name);
+            fragmentTransaction.attach(fragment);
+        }
+
+        return fragment;
+    }
+
+    /**
+     * set primary fragment
+     *
+     * @param fragmentTransaction fragment transaction
+     * @param fragment            fragment
+     */
+    private void setPrimaryFragment(@NonNull FragmentTransaction fragmentTransaction, Fragment fragment) {
+        if (fragment != currentFragment) {
+            if (currentFragment != null) {
+                currentFragment.setMenuVisibility(false);
+                fragmentTransaction.setMaxLifecycle(currentFragment, Lifecycle.State.CREATED);
+            }
+            fragment.setMenuVisibility(true);
+            fragmentTransaction.setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
+
+            currentFragment = fragment;
+        }
     }
 
     /**

@@ -40,14 +40,22 @@ public class ProjectFragment extends CommonFragment {
 
     private final List<Project> projectList = new ArrayList<>();
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ProjectPagerAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_official_account, container, false);
-        tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        ViewPager viewPager = view.findViewById(R.id.viewPager);
+        adapter = new ProjectPagerAdapter(getChildFragmentManager(), projectList);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new OnTabSelectedAdapter() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), false);
+            }
+        });
 
         holder = Loading.getDefault().wrap(view).withRetry(() -> {
             holder.showLoading();
@@ -79,21 +87,12 @@ public class ProjectFragment extends CommonFragment {
 
                     holder.showLoadSuccess();
                     projectList.addAll(projects);
-                    initRealView();
+                    adapter.notifyDataSetChanged();
                 }, throwable -> {
+                    disposable = null;
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());
                 }, () -> disposable = null);
     }
 
-    private void initRealView() {
-        viewPager.setAdapter(new ProjectPagerAdapter(getChildFragmentManager(), projectList));
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new OnTabSelectedAdapter() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition(), false);
-            }
-        });
-    }
 }

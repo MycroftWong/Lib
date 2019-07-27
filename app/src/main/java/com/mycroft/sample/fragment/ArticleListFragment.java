@@ -146,7 +146,6 @@ public final class ArticleListFragment extends CommonFragment {
                                 nextPage = page + 1;
                                 articleList.addAll(articleListModel.getDatas());
                                 adapter.notifyDataSetChanged();
-                                finishRefresh();
                             },
                             throwable -> {
                                 LogUtils.e(throwable);
@@ -155,7 +154,8 @@ public final class ArticleListFragment extends CommonFragment {
                                     holder.showLoadFailed();
                                 }
                                 finishRefresh();
-                            });
+                            },
+                            this::finishRefresh);
         }
     }
 

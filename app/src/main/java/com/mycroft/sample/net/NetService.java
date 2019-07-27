@@ -48,7 +48,7 @@ public final class NetService {
 
     private NetService() {
 
-        IFileService fileService = new FileServiceImpl();
+        IFileService fileService = FileServiceImpl.getInstance();
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LogUtils::w);
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);

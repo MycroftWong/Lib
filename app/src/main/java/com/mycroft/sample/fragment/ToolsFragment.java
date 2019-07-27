@@ -78,6 +78,7 @@ public class ToolsFragment extends CommonFragment {
                         adapter.addData(new ToolsHeader(item));
                     }
                 }, throwable -> {
+                    disposable = null;
                     holder.showLoadFailed();
                     ToastUtils.showShort(throwable.getMessage());
                 }, () -> disposable = null);

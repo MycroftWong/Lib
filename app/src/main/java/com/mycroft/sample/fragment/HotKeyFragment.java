@@ -81,7 +81,10 @@ public class HotKeyFragment extends CommonFragment {
                 .subscribe(hotKeys -> {
                             hotKeyList.addAll(hotKeys);
                             showHotKey();
-                        }, throwable -> ToastUtils.showShort(throwable.getMessage()),
+                        }, throwable -> {
+                            disposable = null;
+                            ToastUtils.showShort(throwable.getMessage());
+                        },
                         () -> disposable = null);
     }
 
