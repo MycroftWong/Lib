@@ -7,12 +7,12 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
+import com.mycroft.lib.util.FragmentSwitcher;
 import com.mycroft.sample.R;
 import com.mycroft.sample.adapter.pager.MainPagerAdapter;
 import com.mycroft.sample.common.CommonActivity;
@@ -31,8 +31,6 @@ public class MainActivity extends CommonActivity {
 
     @BindView(R.id.titleBar)
     TitleBar titleBar;
-    @BindView(R.id.container)
-    ViewPager container;
     @BindView(R.id.navigationView)
     BottomNavigationView navigationView;
 
@@ -41,8 +39,11 @@ public class MainActivity extends CommonActivity {
         return R.layout.activity_main;
     }
 
+    private FragmentSwitcher fragmentSwitcher;
+
     @Override
     protected void initFields(@Nullable Bundle savedInstanceState) {
+        fragmentSwitcher = new FragmentSwitcher(getSupportFragmentManager(), R.id.container, new MainPagerAdapter());
     }
 
     @Override
@@ -55,25 +56,25 @@ public class MainActivity extends CommonActivity {
 
         ButterKnife.bind(this);
 
-        container.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
+        fragmentSwitcher.startFragment(0);
 
         navigationView.setOnNavigationItemSelectedListener(item -> {
             titleBar.setTitle(item.getTitle());
             switch (item.getItemId()) {
                 case R.id.mainMenu:
-                    container.setCurrentItem(0, false);
+                    fragmentSwitcher.startFragment(0);
                     break;
                 case R.id.categoryMenu:
-                    container.setCurrentItem(1, false);
+                    fragmentSwitcher.startFragment(1);
                     break;
                 case R.id.officialAccountMenu:
-                    container.setCurrentItem(2, false);
+                    fragmentSwitcher.startFragment(2);
                     break;
                 case R.id.toolMenu:
-                    container.setCurrentItem(3, false);
+                    fragmentSwitcher.startFragment(3);
                     break;
                 case R.id.projectMenu:
-                    container.setCurrentItem(4, false);
+                    fragmentSwitcher.startFragment(4);
                     break;
                 default:
                     break;
@@ -105,6 +106,8 @@ public class MainActivity extends CommonActivity {
 
     @Override
     protected void onDestroy() {
+        fragmentSwitcher.destroy();
+        fragmentSwitcher = null;
         super.onDestroy();
     }
 }

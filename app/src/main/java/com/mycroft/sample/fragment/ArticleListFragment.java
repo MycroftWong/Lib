@@ -97,16 +97,16 @@ public final class ArticleListFragment extends CommonFragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> {
-            holder.showLoading();
-            loadData(startPage);
-        });
-
         adapter = new SearchResultAdapter(articleList);
         adapter.setOnItemClickListener((a, v, position) -> startActivity(WebViewActivity.getIntent(getContext(), articleList.get(position))));
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setOnRefreshLoadMoreListener(refreshLoadMoreListener);
+
+        holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> {
+            holder.showLoading();
+            loadData(startPage);
+        });
 
         return holder.getWrapper();
     }

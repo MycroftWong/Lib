@@ -40,11 +40,6 @@ public class ToolsFragment extends CommonFragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     private LoadingHolder holder;
     private ToolsAdapter adapter;
 

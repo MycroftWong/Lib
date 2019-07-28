@@ -59,6 +59,8 @@ public class SearchResultFragment extends CommonFragment {
                 .getSearchKey()
                 .observe(this, s -> {
                     key = s;
+                    searchResultList.clear();
+                    adapter.notifyDataSetChanged();
                     loadData(START_PAGE);
                 });
     }

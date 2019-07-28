@@ -32,6 +32,8 @@ import io.reactivex.disposables.Disposable;
  */
 public class CategoryFragment extends CommonFragment {
 
+    private static final String STATE_CATEGORY_LIST = "category_list.state";
+
     public static CategoryFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -41,15 +43,27 @@ public class CategoryFragment extends CommonFragment {
         return fragment;
     }
 
+    private final ArrayList<Category> categoryList = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            List<Category> categories = savedInstanceState.getParcelableArrayList(STATE_CATEGORY_LIST);
+            if (categories != null) {
+                categoryList.addAll(categories);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_CATEGORY_LIST, categoryList);
     }
 
     private LoadingHolder holder;
     private CategoryAdapter adapter;
-
-    private final List<Category> categoryList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,11 +80,19 @@ public class CategoryFragment extends CommonFragment {
             holder.showLoading();
             loadData();
         });
-        holder.showLoading();
-
-        adapter.expandAll();
 
         return holder.getWrapper();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (categoryList.isEmpty()) {
+            holder.showLoading();
+        } else {
+            holder.showLoadSuccess();
+        }
     }
 
     private Disposable disposable;
@@ -97,8 +119,6 @@ public class CategoryFragment extends CommonFragment {
         super.onResume();
         if (adapter.getData().isEmpty()) {
             loadData();
-        } else {
-            holder.showLoadSuccess();
         }
     }
 

@@ -2,6 +2,7 @@ package com.mycroft.sample.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ final class StatusView extends LinearLayout {
 
     public StatusView(@NonNull Context context, @NonNull Runnable retryTask) {
         super(context);
+        setGravity(Gravity.CENTER);
+        setOrientation(LinearLayout.VERTICAL);
 
         LayoutInflater.from(context).inflate(R.layout.loading_status_view, this, true);
         spinKitView = findViewById(R.id.spinKitView);

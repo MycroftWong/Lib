@@ -28,6 +28,40 @@
 5. 添加了`RxJava`的工具类，避免内存泄漏
 6. 实现了页面状态加载，刚进入页面没有数据时实现加载状态
 
+## 使用方式
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.MycroftWong:lib:v1.9'
+}
+
+
+// 使用了rxjava3, 在app build.gradle中添加
+android {
+    ...
+    configurations {
+        compile.exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+        all {
+            resolutionStrategy {
+                eachDependency { DependencyResolveDetails details ->
+                    if (details.requested.group == 'io.reactivex.rxjava3' &&
+                            details.requested.name == 'rxjava') {
+                        details.useVersion '3.0.0-RC1'
+                        details.because 'Unified the version of RxJava3'
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
 ## 展望
 
 `ViewModel`的更有利于配合`Activity`和`Fragment`的生命周期使用，极大程度上避免了内存泄漏，在考虑封装使用，减少`RxJava`的使用

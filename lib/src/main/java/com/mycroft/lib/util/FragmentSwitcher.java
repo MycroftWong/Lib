@@ -1,6 +1,7 @@
 package com.mycroft.lib.util;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
@@ -17,7 +18,6 @@ import java.util.List;
  *
  * @author mycroft
  */
-@Deprecated
 public final class FragmentSwitcher {
 
     private final FragmentManager fragmentManager;
@@ -26,7 +26,7 @@ public final class FragmentSwitcher {
 
     private final FragmentAdapter adapter;
 
-    public FragmentSwitcher(FragmentManager fragmentManager, @IdRes int container, FragmentAdapter adapter) {
+    public FragmentSwitcher(@NonNull FragmentManager fragmentManager, @IdRes int container, @NonNull FragmentAdapter adapter) {
         this.fragmentManager = fragmentManager;
         containerId = container;
         this.adapter = adapter;
@@ -52,7 +52,12 @@ public final class FragmentSwitcher {
                 .beginTransaction();
 
         Fragment fragment = createFragment(ft, pos);
-        setPrimaryFragment(ft, fragment);
+        setPrimaryFragment(ft, fragment, pos);
+
+        currentPosition = pos;
+
+        ft.commitAllowingStateLoss();
+
 //
 ////        Fragment fragment = fragmentManager.findFragmentByTag(makeFragmentName(containerId, pos));
 //
@@ -101,9 +106,7 @@ public final class FragmentSwitcher {
 //        }
 //
 //        currentFragment = fragment;
-
-        currentPosition = pos;
-        ft.commitAllowingStateLoss();
+//        currentPosition = pos;
     }
 
     /**
@@ -111,14 +114,25 @@ public final class FragmentSwitcher {
      * @param position            position
      * @return fragment of position
      */
-    private Fragment createFragment(@NonNull FragmentTransaction fragmentTransaction, int position) {
+    @NonNull
+    private Fragment createFragment(@NonNull FragmentTransaction fragmentTransaction, @IntRange(from = 0) int position) {
         String name = makeFragmentName(containerId, position);
         Fragment fragment = fragmentManager.findFragmentByTag(name);
 
         if (fragment == null) {
             fragment = adapter.getFragmentBy(position);
+            if (fragment == null) {
+                throw new IllegalStateException("No fragment for position: " + position);
+            }
+
+            if (saveStatePosition.contains(position)) {
+                Fragment.SavedState fss = savedStateArrayMap.get(position);
+                if (fss != null) {
+                    fragment.setInitialSavedState(fss);
+                }
+            }
+
             fragmentTransaction.add(containerId, fragment, name);
-            fragmentTransaction.attach(fragment);
         }
 
         return fragment;
@@ -130,16 +144,43 @@ public final class FragmentSwitcher {
      * @param fragmentTransaction fragment transaction
      * @param fragment            fragment
      */
-    private void setPrimaryFragment(@NonNull FragmentTransaction fragmentTransaction, Fragment fragment) {
+    private void setPrimaryFragment(@NonNull FragmentTransaction fragmentTransaction, @NonNull Fragment fragment, int position) {
         if (fragment != currentFragment) {
+
             if (currentFragment != null) {
                 currentFragment.setMenuVisibility(false);
-                fragmentTransaction.setMaxLifecycle(currentFragment, Lifecycle.State.CREATED);
+
+                if (saveStatePosition.contains(position)) {
+                    Fragment.SavedState fss = savedStateArrayMap.get(position);
+                    if (fss != null) {
+                        fragment.setInitialSavedState(fss);
+                    }
+                }
+
+                fragmentTransaction
+                        .hide(currentFragment)
+                        .setMaxLifecycle(currentFragment, Lifecycle.State.STARTED);
             }
             fragment.setMenuVisibility(true);
-            fragmentTransaction.setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
+            fragmentTransaction
+                    .show(fragment)
+                    .setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
 
             currentFragment = fragment;
+        }
+    }
+
+    private void handleState(@NonNull Fragment fragment, int position) {
+        if (saveStatePosition.contains(currentPosition) && currentFragment != null) {
+            savedStateArrayMap.put(currentPosition, currentFragment.isAdded()
+                    ? fragmentManager.saveFragmentInstanceState(fragment) : null);
+        }
+
+        if (saveStatePosition.contains(position)) {
+            Fragment.SavedState fss = savedStateArrayMap.get(position);
+            if (fss != null) {
+                fragment.setInitialSavedState(fss);
+            }
         }
     }
 
@@ -150,7 +191,7 @@ public final class FragmentSwitcher {
         List<Fragment> fragmentList = fragmentManager.getFragments();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         for (Fragment item : fragmentList) {
-            transaction.detach(item);
+            transaction.remove(item);
         }
 
         transaction.commitAllowingStateLoss();

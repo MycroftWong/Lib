@@ -1,10 +1,8 @@
 package com.mycroft.sample.adapter.pager;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.mycroft.lib.util.FragmentSwitcher;
 import com.mycroft.sample.fragment.ArticleListFragment;
 import com.mycroft.sample.fragment.CategoryFragment;
 import com.mycroft.sample.fragment.OfficialAccountFragment;
@@ -12,18 +10,13 @@ import com.mycroft.sample.fragment.ProjectFragment;
 import com.mycroft.sample.fragment.ToolsFragment;
 
 /**
- * 主页adapter
+ * 主页pager adapter
  *
  * @author wangqiang
  */
-public class MainPagerAdapter extends FragmentPagerAdapter {
-    public MainPagerAdapter(@NonNull FragmentManager fm) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-    }
-
-    @NonNull
+public class MainPagerAdapter implements FragmentSwitcher.FragmentAdapter {
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getFragmentBy(int position) {
         switch (position) {
             case 0:
                 return ArticleListFragment.newInstance("/article/list/%d/json", 1);
@@ -38,10 +31,5 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             default:
                 return ArticleListFragment.newInstance("/article/list/%d/json", 1);
         }
-    }
-
-    @Override
-    public int getCount() {
-        return 5;
     }
 }

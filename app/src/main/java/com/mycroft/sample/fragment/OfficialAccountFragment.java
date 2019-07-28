@@ -65,8 +65,17 @@ public class OfficialAccountFragment extends CommonFragment {
             holder.showLoading();
             loadData();
         });
-        holder.showLoading();
         return holder.getWrapper();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (officialAccountList.isEmpty()) {
+            holder.showLoading();
+        } else {
+            holder.showLoadSuccess();
+        }
     }
 
     @Override
@@ -74,8 +83,6 @@ public class OfficialAccountFragment extends CommonFragment {
         super.onResume();
         if (officialAccountList.isEmpty()) {
             loadData();
-        } else {
-            holder.showLoadSuccess();
         }
     }
 

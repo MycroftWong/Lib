@@ -3,7 +3,7 @@ apply plugin: 'AndResGuard'
 
 android {
     compileSdkVersion versions.compileSdkVersion
-    buildToolsVersion = "${versions.buildToolsVersion}"
+    buildToolsVersion = versions.buildToolsVersion
 
     defaultConfig {
         applicationId "com.mycroft.sample"

@@ -2,6 +2,7 @@ package com.mycroft.lib.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -28,16 +29,15 @@ final class StatusView extends LinearLayout {
 
     public StatusView(@NonNull Context context, @NonNull Runnable retryTask) {
         super(context);
+        setGravity(Gravity.CENTER);
+        setOrientation(LinearLayout.VERTICAL);
 
         LayoutInflater.from(context).inflate(R.layout.layout_status_view, this, true);
         progressBar = findViewById(R.id.progressBar);
         statusText = findViewById(R.id.statusText);
         retryButton = findViewById(R.id.retryButton);
 
-        retryButton.setOnClickListener(v -> {
-            onLoading();
-            retryTask.run();
-        });
+        retryButton.setOnClickListener(v -> retryTask.run());
     }
 
     public void setStatus(int status) {
