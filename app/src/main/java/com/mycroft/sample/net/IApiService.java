@@ -42,6 +42,15 @@ public interface IApiService {
     /**
      * 通用的获取文章列表的接口
      *
+     * @param page page
+     * @return
+     */
+    @GET("article/list/{page}/json")
+    Observable<NetModel<ListData<Article>>> getHomeArticleList(@Path("page") int page);
+
+    /**
+     * 通用的获取文章列表的接口
+     *
      * @param url url
      * @return
      */

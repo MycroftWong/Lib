@@ -106,6 +106,7 @@ public class WebViewActivity extends CommonActivity {
                 .createAgentWeb()
                 .ready()
                 .go(article.getLink());
+
     }
 
     @Override

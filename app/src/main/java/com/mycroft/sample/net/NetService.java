@@ -81,6 +81,11 @@ public final class NetService {
 
     private final IApiService service;
 
+    public Observable<ListData<Article>> getHomeArticleList(int page) {
+        Observable<NetModel<ListData<Article>>> observable = service.getHomeArticleList(page);
+        return handleResult(observable);
+    }
+
     public Observable<ListData<Article>> getArticleList(String url, int page) {
         Observable<NetModel<ListData<Article>>> observable = service.getArticleList(String.format(Locale.US, url, page));
         return handleResult(observable);

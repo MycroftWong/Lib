@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.OnTitleBarListener;
@@ -106,6 +107,7 @@ public class MainActivity extends CommonActivity {
 
     @Override
     protected void onDestroy() {
+        Glide.get(this).clearMemory();
         fragmentSwitcher.destroy();
         fragmentSwitcher = null;
         super.onDestroy();

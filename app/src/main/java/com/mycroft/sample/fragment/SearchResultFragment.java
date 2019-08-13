@@ -16,9 +16,10 @@ import com.mycroft.lib.util.BaseQuickAdapterUtil;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
 import com.mycroft.sample.activity.WebViewActivity;
-import com.mycroft.sample.adapter.recycler.SearchResultAdapter;
+import com.mycroft.sample.adapter.recycler.ArticleListAdapter;
 import com.mycroft.sample.common.CommonFragment;
 import com.mycroft.sample.model.Article;
+import com.mycroft.sample.model.ArticleTypeModel;
 import com.mycroft.sample.net.NetService;
 import com.mycroft.sample.service.HistoryKeyServiceImpl;
 import com.mycroft.sample.service.IHistoryKeyService;
@@ -69,9 +70,9 @@ public class SearchResultFragment extends CommonFragment {
 
     private RecyclerView recyclerView;
 
-    private final List<Article> searchResultList = new ArrayList<>();
+    private final List<ArticleTypeModel> searchResultList = new ArrayList<>();
 
-    private SearchResultAdapter adapter;
+    private ArticleListAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,11 +82,11 @@ public class SearchResultFragment extends CommonFragment {
         refreshLayout.setOnRefreshLoadMoreListener(refreshLoadMoreListener);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new SearchResultAdapter(searchResultList);
+        adapter = new ArticleListAdapter(searchResultList);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener((a, v, position) ->
-                startActivity(WebViewActivity.getIntent(getContext(), searchResultList.get(position))));
+                startActivity(WebViewActivity.getIntent(getContext(), searchResultList.get(position).getArticle())));
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
@@ -125,13 +126,14 @@ public class SearchResultFragment extends CommonFragment {
         disposable = NetService.getInstance().search(key, page)
                 .subscribe(listData -> {
                             nextPage = listData.getCurPage() + 1;
-                            searchResultList.addAll(listData.getDatas());
+                            for (Article item : listData.getDatas()) {
+                                searchResultList.add(new ArticleTypeModel(item));
+                            }
 
                             adapter.notifyDataSetChanged();
                             if (listData.getCurPage() == START_PAGE) {
                                 recyclerView.scrollToPosition(0);
                             }
-
                         }, throwable -> {
                             ToastUtils.showShort(throwable.getMessage());
                             finishRefresh();

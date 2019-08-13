@@ -5,21 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="124dp"
     android:background="@drawable/bg_common"
-    android:paddingTop="@dimen/common_padding_start_end"
-    android:paddingEnd="@dimen/common_padding_start_end"
-    android:paddingBottom="@dimen/common_padding_start_end">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/slide_image"
-        android:layout_height="@dimen/slide_image"
-        android:layout_marginStart="@dimen/common_padding_start_end"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+    android:padding="@dimen/common_padding_start_end">
 
     <TextView
         android:id="@+id/titleText"
@@ -29,8 +15,8 @@
         android:ellipsize="end"
         android:maxLines="2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="简洁美观的WAndroid" />
 
     <TextView
@@ -53,7 +39,7 @@
         android:textColor="@color/common_text_color_info"
         android:textSize="@dimen/common_text_size_info"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="goweii" />
 
     <TextView

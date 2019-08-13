@@ -29,59 +29,23 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
 /**
- * 通用的文章列表页面
+ * 主页
  *
  * @author mycroft
  */
-public final class ArticleListFragment extends CommonFragment {
+public final class HomeFragment extends CommonFragment {
 
-    private static final String ARGS_ARTICLE = "article.args";
-    private static final String ARGS_START_PAGE = "start_page.args";
+    private static final int START_PAGE = 0;
 
-    private static final String SAVED_ARTICLES = "articleList.saved";
-
-    public static ArticleListFragment newInstance(String url, int startPage) {
-
+    public static HomeFragment newInstance() {
         Bundle args = new Bundle();
-        args.putString(ARGS_ARTICLE, url);
-        args.putInt(ARGS_START_PAGE, startPage);
-        ArticleListFragment fragment = new ArticleListFragment();
+        HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    private String articleUrl;
-    private int startPage;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (null == savedInstanceState) {
-            articleUrl = getArguments().getString(ARGS_ARTICLE);
-            startPage = getArguments().getInt(ARGS_START_PAGE);
-        } else {
-            articleUrl = savedInstanceState.getString(ARGS_ARTICLE);
-            startPage = savedInstanceState.getInt(ARGS_START_PAGE);
-            List<ArticleTypeModel> articles = savedInstanceState.getParcelableArrayList(SAVED_ARTICLES);
-            if (null != articles && !articles.isEmpty()) {
-                articleTypeModels.addAll(articles);
-            }
-        }
-
-        nextPage = startPage;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(ARGS_ARTICLE, articleUrl);
-        outState.putInt(ARGS_START_PAGE, startPage);
-        outState.putParcelableArrayList(SAVED_ARTICLES, articleTypeModels);
     }
 
     private final ArrayList<ArticleTypeModel> articleTypeModels = new ArrayList<>();
@@ -106,7 +70,7 @@ public final class ArticleListFragment extends CommonFragment {
 
         holder = Loading.getDefault().wrap(refreshLayout).withRetry(() -> {
             holder.showLoading();
-            loadData(startPage);
+            loadData(START_PAGE);
         });
 
         return holder.getWrapper();
@@ -126,7 +90,7 @@ public final class ArticleListFragment extends CommonFragment {
     public void onResume() {
         super.onResume();
         if (articleTypeModels.isEmpty()) {
-            loadData(startPage);
+            loadData(START_PAGE);
         }
     }
 
@@ -137,11 +101,11 @@ public final class ArticleListFragment extends CommonFragment {
     private void loadData(int page) {
         if (disposable == null) {
             holder.showLoading();
-            disposable = NetService.getInstance().getArticleList(articleUrl, page)
+            disposable = NetService.getInstance().getHomeArticleList(page)
                     .subscribe(articleListModel -> {
                                 holder.showLoadSuccess();
 
-                                if (page == startPage) {
+                                if (page == START_PAGE) {
                                     articleTypeModels.clear();
                                 }
                                 nextPage = page + 1;
@@ -190,7 +154,7 @@ public final class ArticleListFragment extends CommonFragment {
 
         @Override
         public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-            loadData(startPage);
+            loadData(START_PAGE);
         }
     };
 }
