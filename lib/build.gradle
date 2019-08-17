@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode 190
-        versionName "v1.9"
+        versionCode 191
+        versionName "v1.9.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -65,7 +65,6 @@ dependencies {
     api "androidx.lifecycle:lifecycle-runtime:${versions.lifecycle}"
     api "androidx.lifecycle:lifecycle-service:${versions.lifecycle}"
     api "androidx.lifecycle:lifecycle-viewmodel:${versions.lifecycle}"
-    api "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
 
     api "com.blankj:utilcodex:${versions.androidutilcodex}"
 

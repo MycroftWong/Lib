@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,7 +55,7 @@ public class HistorySearchFragment extends CommonFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historyKeyService = HistoryKeyServiceImpl.getInstance();
-        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
     }
 
     private final List<HistoryKey> historySearchKey = new ArrayList<>();

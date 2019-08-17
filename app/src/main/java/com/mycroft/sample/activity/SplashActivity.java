@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
 import com.mycroft.sample.common.CommonActivity;
+import com.mycroft.sample.component.WebService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.concurrent.TimeUnit;
@@ -46,6 +47,7 @@ public class SplashActivity extends CommonActivity {
         disposable = Observable.just(System.currentTimeMillis())
                 .subscribeOn(Schedulers.io())
                 .map(startTime -> {
+                    WebService.start(this);
                     TimeUnit.MILLISECONDS.sleep(TIME_SPLASH - (System.currentTimeMillis() - startTime));
                     return startTime;
                 })

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.donkingliang.labels.LabelsView;
@@ -35,7 +35,7 @@ public class HotKeyFragment extends CommonFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
     }
 
     @Override

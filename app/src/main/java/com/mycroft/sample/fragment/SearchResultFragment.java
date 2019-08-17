@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +56,7 @@ public class SearchResultFragment extends CommonFragment {
 
         historyKeyService = HistoryKeyServiceImpl.getInstance();
 
-        ViewModelProviders.of(getActivity()).get(SearchViewModel.class)
+        new ViewModelProvider(getActivity()).get(SearchViewModel.class)
                 .getSearchKey()
                 .observe(this, s -> {
                     key = s;

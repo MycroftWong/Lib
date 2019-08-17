@@ -1,14 +1,13 @@
 package com.mycroft.lib.base;
 
 import android.app.Dialog;
-import android.os.Looper;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mycroft.lib.R;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * @author Mycroft
@@ -16,13 +15,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 public abstract class BaseFragment extends Fragment {
 
-    private Dialog mLoadingDialog;
+    private LoadingDialogHelper loadingDialogHelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loadingDialogHelper = new LoadingDialogHelper(this, this::createLoadingDialog);
+    }
 
     /**
      * 显示通用的加载{@link Dialog}, 默认cancelable=false
      */
     protected final void showLoadingDialog() {
-        showLoadingDialog(false);
+        loadingDialogHelper.showLoadingDialog();
     }
 
     /**
@@ -31,16 +36,7 @@ public abstract class BaseFragment extends Fragment {
      * @param cancelable 是否允许点击空白处取消
      */
     protected final void showLoadingDialog(boolean cancelable) {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = createLoadingDialog();
-        }
-        mLoadingDialog.setCancelable(cancelable);
-
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            mLoadingDialog.show();
-        } else {
-            AndroidSchedulers.mainThread().scheduleDirect(mLoadingDialog::show);
-        }
+        loadingDialogHelper.showLoadingDialog(cancelable);
     }
 
     /**
@@ -59,24 +55,6 @@ public abstract class BaseFragment extends Fragment {
      * 隐藏加载Dialog
      */
     protected final void hideLoadingDialog() {
-        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                mLoadingDialog.cancel();
-            } else {
-                AndroidSchedulers.mainThread().scheduleDirect(mLoadingDialog::cancel);
-            }
-        }
+        loadingDialogHelper.hideLoadingDialog();
     }
-
-    @Override
-    public void onDestroyView() {
-        if (mLoadingDialog != null) {
-            if (mLoadingDialog.isShowing()) {
-                mLoadingDialog.cancel();
-            }
-            mLoadingDialog = null;
-        }
-        super.onDestroyView();
-    }
-
 }

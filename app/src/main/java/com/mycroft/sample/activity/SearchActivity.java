@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.gyf.immersionbar.ImmersionBar;
@@ -53,7 +53,7 @@ public class SearchActivity extends CommonActivity {
 
     @Override
     protected void initFields(@Nullable Bundle savedInstanceState) {
-        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         searchViewModel.getSearchKey().observe(this, s -> {
             search();

@@ -88,6 +88,8 @@ dependencies {
     implementation 'com.hjq:titlebar:6.0'
 
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
+
+    implementation 'com.blankj:swipe-panel:1.1'
 }
 
 

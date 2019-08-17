@@ -66,3 +66,6 @@ android {
 
 `ViewModel`的更有利于配合`Activity`和`Fragment`的生命周期使用，极大程度上避免了内存泄漏，在考虑封装使用，减少`RxJava`的使用
 
+## ChangeLog
+
+* 1.9.1 更新依赖库，删除过时代码 
