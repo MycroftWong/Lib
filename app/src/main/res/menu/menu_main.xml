@@ -3,34 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/mainMenu"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/main"
         android:title="@string/main_page"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/categoryMenu"
+        android:id="@+id/navigation_category"
         android:icon="@drawable/tools"
         android:title="@string/tools"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/officialAccountMenu"
+        android:id="@+id/navigation_official"
         android:icon="@drawable/official_account"
         android:title="@string/official_account"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/toolMenu"
+        android:id="@+id/navigation_tool"
         android:icon="@drawable/tools"
         android:title="@string/tool"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/projectMenu"
+        android:id="@+id/navigation_project"
         android:icon="@drawable/project"
         android:title="@string/project"
         app:showAsAction="ifRoom" />
-
-
 </menu>

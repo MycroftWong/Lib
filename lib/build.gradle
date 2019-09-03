@@ -91,6 +91,7 @@ dependencies {
 
     // immersion bar
     api "com.gyf.immersionbar:immersionbar:${versions.immersionbar}"
+    api "com.gyf.immersionbar:immersionbar-ktx:${versions.immersionbar}"
 
 //    api 'com.github.cxyzy1:clearEditText:1.0.5'
 

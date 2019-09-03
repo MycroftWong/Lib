@@ -9,4 +9,8 @@
     <string name="label_hot_key">热门搜索</string>
     <string name="label_history_key">历史搜索</string>
     <string name="text_clear_all">清空</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

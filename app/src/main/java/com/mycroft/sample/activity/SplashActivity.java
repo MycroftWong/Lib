@@ -60,7 +60,7 @@ public class SplashActivity extends CommonActivity {
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 .subscribe(granted -> {
                             if (granted) {
-                                startActivity(MainActivity.getIntent(this));
+                                startActivity(MainActivity.Companion.getIntent(this));
                             }
                             finish();
                         },

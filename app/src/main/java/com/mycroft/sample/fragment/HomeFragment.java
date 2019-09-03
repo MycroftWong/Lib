@@ -39,6 +39,8 @@ import io.reactivex.disposables.Disposable;
  */
 public final class HomeFragment extends CommonFragment {
 
+    private static final String STATE_NEXT_PAGE = "next_page.state";
+
     private static final int START_PAGE = 0;
 
     public static HomeFragment newInstance() {
@@ -46,6 +48,20 @@ public final class HomeFragment extends CommonFragment {
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            nextPage = savedInstanceState.getInt(STATE_NEXT_PAGE, 0);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_NEXT_PAGE, nextPage);
     }
 
     private final ArrayList<ArticleTypeModel> articleTypeModels = new ArrayList<>();

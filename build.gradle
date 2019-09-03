@@ -4,7 +4,8 @@ buildscript {
 
     ext {
         versions = [
-                'gradle': '3.4.2',
+                'kotlin_version': '1.3.41',
+                'gradle': '3.5.0',
                 'minSdkVersion': 21,
                 'targetSdkVersion': 28,
                 'compileSdkVersion': 28,
@@ -21,7 +22,8 @@ buildscript {
                 'material': '1.1.0-alpha09',
                 'recyclerview': '1.1.0-beta03',
                 'lifecycle': '2.2.0-alpha03',
-                'room': '2.2.0-alpha02',
+                'room': '2.2.0-beta01',
+                'navigation': '2.2.0-alpha01',
 
                 'androidutilcodex': '1.24.7',
                 'gson': '2.8.5',
@@ -37,7 +39,7 @@ buildscript {
                 'rxpermissions': '0.10.2',
                 'BRAV': '2.9.46',
                 'SmartRefreshLayout': '1.1.0',
-                'immersionbar': '3.0.0-beta05',
+                'immersionbar': '3.0.0-beta07',
 
                 'prettytime': '4.0.1.Final',
                 'fet': '0.0.8.androidxKT'
@@ -51,6 +53,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.gradle}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.16'
 

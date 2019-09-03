@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:article="http://schemas.android.com/article"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    article:context=".activity.MainActivity">
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
 
     <com.hjq.bar.TitleBar
         android:id="@+id/titleBar"
@@ -17,23 +19,29 @@
         app:rightIcon="@drawable/search"
         app:title="@string/main_page" />
 
-    <FrameLayout
-        android:id="@+id/container"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/height_title_bar"
-        android:layout_marginBottom="@dimen/height_navigation" />
+        android:layout_marginBottom="@dimen/height_navigation"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigationView"
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_navigation"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
         app:itemHorizontalTranslationEnabled="false"
         app:itemIconTint="@color/color_main_bottom_navigation"
         app:itemTextAppearanceActive="@style/MainBottomNavigationTextAppearanceActive"
         app:itemTextAppearanceInactive="@style/MainBottomNavigationTextAppearanceInactive"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_main" />
+
 </FrameLayout>

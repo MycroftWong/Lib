@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  *
  * @author mycroft
  */
-public class ArticleTypeModel implements MultiItemEntity , Parcelable {
+public class ArticleTypeModel implements MultiItemEntity, Parcelable {
 
     public static final int TYPE_TEXT = 0;
     public static final int TYPE_IMAGE = 1;

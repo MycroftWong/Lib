@@ -1,7 +1,8 @@
 package com.mycroft.lib.util;
 
 /**
- * Created by Mycroft_Wong on 2015/12/30.
+ * @author Mycroft_Wong
+ * @date 2015/12/30
  */
 public final class ConverterUtil {
 

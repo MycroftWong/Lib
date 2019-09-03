@@ -45,6 +45,7 @@
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.WebViewActivity"
             android:launchMode="singleTask"
@@ -65,7 +66,6 @@
             android:enabled="true"
             android:exported="false"
             android:process=":web" />
-
         <service
             android:name=".component.BackgroundService"
             android:enabled="true"
