@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.mycroft.sample.fragment.HomeFragment"
         android:label="@string/main_page"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/vertical_refresh_recycler" />
 
     <fragment
         android:id="@+id/navigation_category"

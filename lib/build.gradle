@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode 191
-        versionName "v1.9.1"
+        versionCode 192
+        versionName "v1.9.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -76,6 +76,7 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:${versions.retrofit}"
     api "io.reactivex.rxjava3:rxjava:${versions.rxjava}"
     api "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
+//    api 'io.reactivex.rxjava3:rxandroid:3.0.0-SNAPSHOT'
     api "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${versions.retrofit2_rxjava2_adapter}"
 
     api "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
@@ -85,7 +86,8 @@ dependencies {
 //    api 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
 
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${versions.BRAV}"
-    api "com.scwang.smartrefresh:SmartRefreshLayout:${versions.SmartRefreshLayout}"
+    api  'com.scwang.smart:refresh-layout-kernel:2.0.0-alpha-1'
+//    api "com.scwang.smartrefresh:SmartRefreshLayout:${versions.SmartRefreshLayout}"
 
     api "com.github.tbruyelle:rxpermissions:${versions.rxpermissions}"
 

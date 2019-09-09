@@ -24,10 +24,10 @@ import com.mycroft.sample.net.NetService;
 import com.mycroft.sample.service.HistoryKeyServiceImpl;
 import com.mycroft.sample.service.IHistoryKeyService;
 import com.mycroft.sample.shared.SearchViewModel;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class SearchResultFragment extends CommonFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.verticle_refresh_recycler, container, false);
+        View view = inflater.inflate(R.layout.vertical_refresh_recycler, container, false);
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshLoadMoreListener(refreshLoadMoreListener);

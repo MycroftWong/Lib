@@ -9,6 +9,9 @@ import com.mycroft.lib.util.DisposableUtil;
 import com.mycroft.sample.R;
 import com.mycroft.sample.common.CommonActivity;
 import com.mycroft.sample.component.WebService;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.concurrent.TimeUnit;
@@ -47,6 +50,10 @@ public class SplashActivity extends CommonActivity {
         disposable = Observable.just(System.currentTimeMillis())
                 .subscribeOn(Schedulers.io())
                 .map(startTime -> {
+
+                    SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new ClassicsHeader(context));
+                    SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new ClassicsFooter(context));
+
                     WebService.start(this);
                     TimeUnit.MILLISECONDS.sleep(TIME_SPLASH - (System.currentTimeMillis() - startTime));
                     return startTime;
@@ -54,8 +61,7 @@ public class SplashActivity extends CommonActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap((Function<Long, ObservableSource<Boolean>>) aLong ->
                         new RxPermissions(SplashActivity.this)
-                                .request(Manifest.permission.INTERNET,
-                                        Manifest.permission.ACCESS_NETWORK_STATE,
+                                .request(Manifest.permission.ACCESS_NETWORK_STATE,
                                         Manifest.permission.READ_EXTERNAL_STORAGE,
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 .subscribe(granted -> {

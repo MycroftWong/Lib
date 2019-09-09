@@ -53,13 +53,6 @@ public class SearchActivity extends CommonActivity {
 
     @Override
     protected void initFields(@Nullable Bundle savedInstanceState) {
-        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-
-        searchViewModel.getSearchKey().observe(this, s -> {
-            search();
-            searchEdit.setText(s);
-            searchEdit.setSelection(s.length());
-        });
     }
 
     private HistorySearchFragment historySearchFragment;
@@ -73,6 +66,14 @@ public class SearchActivity extends CommonActivity {
                 .statusBarColor(R.color.colorPrimaryDark)
                 .statusBarDarkFont(true)
                 .init();
+
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
+        searchViewModel.getSearchKey().observe(this, s -> {
+            search();
+            searchEdit.setText(s);
+            searchEdit.setSelection(s.length());
+        });
 
         ButterKnife.bind(this);
 
